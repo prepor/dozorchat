@@ -4,6 +4,7 @@ class CrewsController < ApplicationController
     @chat_user.crew.where=params[:where]
     if @chat_user.crew.save
       jugg_execute
+      render :nothing => true
       # render :update do |page|
       #   page.replace_html "bar_errors", "Статус экипажа изменен"
       # end 
@@ -15,6 +16,7 @@ class CrewsController < ApplicationController
     @chat_user.crew.where2=params[:where2]
     if @chat_user.crew.save
       jugg_execute
+      render :nothing => true
       # render :update do |page|
       #   page.replace_html "bar_errors", "Статус экипажа изменен"
       # end 
@@ -26,6 +28,7 @@ class CrewsController < ApplicationController
     @chat_user.crew.title=params[:title]
     if @chat_user.crew.save
       jugg_execute
+      render :nothing => true
       # render :update do |page|
       #   page.replace_html "bar_errors", "Название экипажа изменено"
       # end 
