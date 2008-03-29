@@ -1,6 +1,6 @@
 class ChatUsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
-  before_filter :chat_logined, :only => [:update, :destroy, :update_name, :update_crew, :create_crew, :get_caption]
+  before_filter :chat_logined, :only => [:update, :destroy, :update_name, :update_crew, :create_crew, :get_caption, :activity]
 
   # render new.rhtml
   def new
