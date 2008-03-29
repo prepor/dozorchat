@@ -277,6 +277,6 @@ function toggle_private(title, id){
 </td>
   </tr>
 </table>
-<%= periodically_call_remote(:url => activity_chat_users_path(@chat_user.id), :frequency => '300') %>
+<%= periodically_call_remote(:url => activity_chat_user_path(@chat_user.id), :frequency => '300') %>
 </body>
 </html>
