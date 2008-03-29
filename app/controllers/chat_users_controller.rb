@@ -28,6 +28,12 @@ class ChatUsersController < ApplicationController
       if @chat_user.save
         session[:chat_user] = @chat_user
         flash[:notice] = "Добро пожаловать, мой друг!"
+        @crews_list=Crew.find :all, :conditions => {:team_id => @chat_user.team_id}
+        render :juggernaut => {:type => :send_to_channels, :channels => ['team_' + @chat_user.team.id.to_s]} do |page|
+            page.replace_html "change_crew_div_list", :partial => "chat/change_crew_div_list"
+            page.replace_html "crews_list", :partial => "chat/crews_list"
+            page.visual_effect "highlight", "crews_list"
+        end
         redirect_to :controller => "chat", :action => "show", :team_id => params[:team_id]
         
       else
@@ -38,6 +44,7 @@ class ChatUsersController < ApplicationController
       flash[:error] = "Пароль не подходит"
       render :action => 'new'
     end
+    
   end
   
   def update_name
@@ -107,8 +114,19 @@ class ChatUsersController < ApplicationController
       @chat_user.crew.destroy
     end
     flash[:notice] = "Вы вышли из чата!"
+    @crews_list=Crew.find :all, :conditions => {:team_id => @chat_user.team_id}
+    render :juggernaut => {:type => :send_to_channels, :channels => ['team_' + @chat_user.team.id.to_s]} do |page|
+        page.replace_html "change_crew_div_list", :partial => "chat/change_crew_div_list"
+        page.replace_html "crews_list", :partial => "chat/crews_list"
+        page.visual_effect "highlight", "crews_list"
+    end
     redirect_to :controller => "chat", :action => "show", :team_id => @chat_user.team_id
     
+  end
+  
+  def activity
+    @chat_user.last_activity=Time.new.to_s(:db)
+    @chat_user.save
   end
     
   def chat_user_env(team)

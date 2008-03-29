@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :chat_users, :member => {"update_name" => :any, "update_crew" => :any, "create_crew" => :any ,"get_caption" => :any}
+  map.resources :chat_users, :member => {"update_name" => :any, "update_crew" => :any, "create_crew" => :any ,"get_caption" => :any, 'activity' => :any}
   map.resources :crews, :collection => {"get_change_crew_list" => :any, "get_list" => :any}, :member => {"update_where" => :any, "update_where2" => :any, "update_title" => :any}
   map.resource :chat_session
   map.resource :messages, :collection => {"get_new" => :any}

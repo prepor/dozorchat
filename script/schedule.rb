@@ -1,3 +1,4 @@
+#!/usr/bin/ruby
 require 'rubygems'
 require 'daemons'
 APP_DIR = File.join(File.dirname(File.expand_path(__FILE__)), '..')
@@ -15,7 +16,7 @@ Daemons.run_proc(
 
   Dir.chdir(APP_DIR)
 
-
+  RAILS_ENV= 'production'
   require File.join('config', 'environment')
 
   begin
@@ -32,6 +33,12 @@ Daemons.run_proc(
           crew=user.crew
           user.destroy
           crew.destroy if crew.chat_users.length < 1
+          @crews_list=Crew.find :all, :conditions => {:team_id => @chat_user.team_id}
+          render :juggernaut => {:type => :send_to_channels, :channels => ['team_' + @chat_user.team.id.to_s]} do |page|
+              page.replace_html "change_crew_div_list", :partial => "chat/change_crew_div_list"
+              page.replace_html "crews_list", :partial => "chat/crews_list"
+              page.visual_effect "highlight", "crews_list"
+          end
         end
         
     end
@@ -40,4 +47,5 @@ Daemons.run_proc(
     RAILS_DEFAULT_LOGGER.warn "Exception in schedule: #{e.inspect}"
     exit
   end
+
 end
