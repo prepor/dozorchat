@@ -1,0 +1,452 @@
+<html>
+	<head>
+		<title>Chat-o-licious - You know you love it!</title>
+		<link rel="stylesheet" href="incs/style.css" type="text/css" />
+	
+		<script type="text/javascript" >
+		/*
+		 * 
+		 * AJAX Chat Client - Kevin Mesiab
+		 *
+		*/
+		//
+		// Global variables
+		//
+		var isFirefox;
+		var isIE;
+		var timeout;
+		var pingtimeout;
+		var pingsent	= 0;
+		var requestsent = 0;
+		var postsent	= 0;
+		var chatsent	= 0
+		var pingRate	= 1000 * 60;	 // one minute
+		var refreshRate = 2000;			 // two seconds
+		var rnd			= Math.random(); // random seed
+		//
+		// Get an XMLHttpRequest object
+		//
+		function getAjax() {
+		
+			if ( isFirefox ) {
+			
+				return new XMLHttpRequest();
+			
+			} else if ( isIE ) {
+			
+				try {
+				
+					return new ActiveXObject( "Msxml2.XMLHTTP" );
+				
+				} catch( ex ) {
+				
+					return new ActiveXObject( "Microsoft.XMLHTTP" );
+				
+				}
+			
+			}
+			
+		}
+		//
+		// Get a DOM element
+		//
+		function getElement( id ) {
+		
+			if( isIE ) {
+			
+				return document.all[ id ];
+				
+			}
+			
+			if( isFirefox ) {
+			
+				return document.getElementById( id );
+			
+			}
+		}
+		//
+		// Get browser type
+		//
+		function sniff() {
+		
+			var ff = "Netscape";
+			var ie = "Microsoft Internet Explorer";
+			
+			isFirefox = ( navigator.appName == ff );
+			isIE = (navigator.appName == ie ); 
+		}
+		//
+		// Measure and display the char count
+		//
+		function charCount()
+		{
+			if( isFirefox ) {
+			
+				charcount = getElement( "charcount" );
+				
+			}
+			
+			inputtext = getElement( "mytext" );
+			charcount.innerHTML = (1+inputtext.value.length) + " characters";
+		}
+		//
+		// Update the status text with some 
+		// basic client statistics
+		// 
+		function updateStatus()
+		{
+			statistics = "<strong>Quick Stats</strong> Pings: " + pingsent + " Requests: " + requestsent + " Posts: " + postsent;
+			
+			if( isFirefox ) {
+				stats = getElement( "stats" );
+			}
+			
+			stats.innerHTML = statistics;
+		}
+		//
+		// Capture the enter key on 
+		// the input box and initiate a
+		// GET to the post url
+		//
+		function captureReturn( event )
+		{
+			if( isIE ) {
+			
+				event = window.event;
+			}
+			//
+			// Supress event bubbling
+			//
+			if( event.keyCode == 13 ) {
+				//
+				// fetch the feed
+				//
+				postText();
+					
+				if( isIE ) {
+				
+					event.returnValue = false;
+					
+				} else {
+				
+					event.preventDefault();
+				
+				}
+			}
+			
+			charCount();
+		}
+		//
+		// Auto scroll the chat window
+		// if the text exceeds the div 
+		//
+		function scrollChatPane()
+		{
+			pane = getElement( "chatpane" );
+			
+			while( pane.scrollTop < pane.scrollHeight - pane.offsetHeight )
+			{
+				pane.scrollTop = pane.scrollTop + 10;
+			}
+		}
+		//
+		// Show the little loading animation
+		// when the page starts
+		//
+		function showLoadScreen()
+		{
+			var loading = "<div style=\"text-align:center;\"><h4>Loading...</h4><img src=\"images/spinwait.gif\" /></div>";
+			
+			chat = getElement( "chatbuffer" );
+			user = getElement( "userlist" );
+			
+			chat.innerHTML = loading;
+			user.innerHTML = loading;
+		
+		}
+		//
+		// ping the server to let 
+		// it know we're still alive
+		//
+		function resetPing()
+		{
+			pingtimeout = window.setTimeout( "pingServer()", pingRate );
+		}
+		//
+		// Start the fetch timer to update
+		// the chatpane and userlist
+		//
+		function setTimers()
+		{
+			timeout = window.setTimeout( "fetch()", refreshRate );
+		}
+		//
+		// Start the async fetch 
+		// and reset the fetch timer
+		//
+		function fetch()
+		{
+			window.clearTimeout( timeout );
+			fetchUserList();
+			setTimers();
+		}
+		/* #############################
+		 * 
+		 * function: fetchUserList()
+		 * purpose:
+		 * 
+		 * This function retrieves the userlist.  
+		 * The userlist is returned as a set of
+		 * list-items from the server.  The existing
+		 * list is replaced and the new list is rendered
+		 * between two <ul> tags.  This function will 
+		 * call to update the chat buffer when it completes.
+		 *		 
+		 * notes: A random number is generated 
+		 * when this page loads.  This number is
+		 * incrimented and appended to the url to
+		 * prevent caching problems in IE
+		 *
+		 * #############################
+		*/
+		function fetchUserList()
+		{
+			rnd++;
+			url = 'operations/userlist.aspx?' + rnd;
+			req = getAjax();
+			
+			req.onreadystatechange = function(){
+			
+				if( req.readyState == 4 && req.status == 200 ) {
+				
+					obj = getElement( "userlist" );
+					obj.innerHTML = req.responseText;
+					fetchBufferText();
+				}
+			
+			}
+			
+			req.open( 'GET', url, true );
+			req.send( null );
+			
+			requestsent++;
+			updateStatus();
+		}
+		/* #############################
+		 * 
+		 * function: fetchBufferText()
+		 * purpose:
+		 * 
+		 * This function retrieves the last 
+		 * twenty lines of the chat buffer.
+		 * The chat buffer is returned as a 
+		 * set of list-items and are rendered
+		 * in a <ul> tag.  This function calls
+		 * the scroll function to scroll the 
+		 * chat pane.
+		 *
+		 * notes: A random number is generated 
+		 * when this page loads.  This number is
+		 * incrimented and appended to the url to
+		 * prevent caching problems in IE
+		 *
+		 * #############################
+		*/
+		function fetchBufferText()
+		{
+			url = 'operations/buffertext.aspx?' + rnd;
+			req = getAjax();
+			
+			req.onreadystatechange = function(){
+			
+				if( req.readyState == 4 && req.status == 200 ) {
+				
+					obj = getElement( "chatbuffer" );
+					obj.innerHTML = req.responseText;
+					scrollChatPane();
+				}
+			}
+			
+			req.open( 'GET', url , true );
+			req.send( null );
+			
+			requestsent++;
+			updateStatus();
+		}
+		/* #############################
+		 * 
+		 * function: postText()
+		 * purpose:
+		 * 
+		 * A users chat is posted to the server in 
+		 * the querystring of the posttext.aspx url.
+		 * The format of the querystring is: 
+		 *
+		 * ?u=[username]&t=[chat text]
+		 *
+		 * Because of the nature of the url encoding
+		 * certain chat text will fail to post.  
+		 * The chat text cannot contain any values
+		 * that are invalid in a url, or are part
+		 * of the url structure, such as the ampersand (&)
+		 * forward slash (/), etc.  
+		 *
+		 * #############################
+		*/
+		function postText()
+		{
+			chatbox = getElement( "mytext" );
+			chat = chatbox.value;
+			chatbox.value = "";
+			
+			user = location.search.substring( 1, location.search.length );
+			url = 'operations/posttext.aspx?u=' + user + '&t=' + chat;
+			
+			req = getAjax();
+			
+			req.onreadystatechange = function(){
+			
+				if( req.readyState == 4 && req.status == 200 ) {
+				
+					fetch();
+				}
+			
+			}
+			
+			req.open( 'GET', url, true );
+			req.send( null );
+			
+			postsent++;
+			updateStatus();
+		}
+		/* #############################
+		 * 
+		 * function: pinServer()
+		 * purpose:
+		 * 
+		 * A sends a message to the server indicating
+		 * the browser is still open and the user is
+		 * still alive.
+		 *
+		 * #############################
+		*/
+		function pingServer()
+		{
+			window.clearTimeout( pingtimeout );
+			
+			user = location.search.substring( 1, location.search.length );
+			url = 'operations/ping.aspx?' + user;
+			
+			req = getAjax();
+			req.open( 'GET', url, true );
+			req.send( null );
+			
+			pingsent++;
+			updateStatus();
+			
+			resetPing();
+		}
+		
+		</script>
+	</head>
+	
+	<body>
+	
+ 
+		
+			<div id="header">
+				<h1>Chat-o-licious</h1>
+				<h2>Web Chat, slicker than yours...</h2>
+			</div>
+			
+			<div style="text-align:center; padding:4px;" id="googleads" >
+				<script type="text/javascript"><!--
+					google_ad_client = "pub-2308575695384596";
+					google_ad_width = 728;
+					google_ad_height = 90;
+					google_ad_format = "728x90_as";
+					google_ad_type = "text_image";
+					google_ad_channel ="9923022637";
+					google_color_border = "FFFFFF";
+					google_color_bg = "FFFFFF";
+					google_color_link = "6666FF";
+					google_color_url = "008000";
+					google_color_text = "000000";
+				//--></script>
+				<script type="text/javascript"
+				  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			</div>
+			
+			<div class="form">
+					
+				<div id="chatpane">
+				  <ul id="chatbuffer" />
+				</div>
+				
+				<div id="userpane">
+					<ul id="userlist" />
+				</div>				
+			
+				
+				<p class="clear" />
+			
+				<label for="txtUsername">
+					chat:
+				</label>
+				
+				<input type="text" 
+					class="mytext" 
+					id="mytext" 
+				/>
+				
+				<p id="charcount" >0 characters</p>
+				<p id="stats" ><strong>Quick Stats</strong> Pings: 0 Requests: 0 Posts: 0</p>
+				
+			</div>
+			
+			
+			<p>The source code for chat-o-licious is my gift to you.  Take it and do great things with it.</p>
+			<ul>
+				<li>.ZIP File: <a href="http://www.electricdiary.com/chat-o-licious/chat-o-licious.zip">chat-o-licious.zip</a> (110kb)</li>
+				<li>Web View: <a href="http://mesiab.servebeer.com/svnbrowser/?path=svn://mesiab.servebeer.com/public/chat-o-licious/trunk">Source Code</a></li>
+				<li>Public Subversion Repository: <a href="svn://mesiab.servebeer.com/public/chat-o-licious/trunk">Source Code</a></li>
+			</ul>
+			<p>
+				Rather have a PHP version? <a href="http://www.davidsterry.com/">David Sterry</a>
+				is actively porting chat-o-licious to PHP.  Try it 
+				<a href="http://www.sterryit.com/chat/index.php">here</a>.
+			
+			<p>If you like what you see, why not make a donation?  It's certainly not required, but definitely appreciated.</p>
+			
+			<!-- donate link -->
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+			</form>
+	 
+		
+		<div id="footer">
+			<cite> 
+				<a href="http://www.emigosonline.com/?chat-o-licious">Chat-o-licious</a> - 
+				Copyright 2005, Kevin Mesiab				
+			</cite>
+		</div>
+		
+		<script type="text/javascript">
+			sniff();
+			showLoadScreen();
+			setTimers();
+			resetPing();
+			
+			if( isFirefox ) {
+				mytext = getElement( "mytext" );
+			}
+			mytext.focus();
+			mytext.onkeypress = captureReturn;
+		</script>
+	
+	</body>
+</html>

@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: RuTils::Gilenson::Formatter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">RuTils::Gilenson::Formatter</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/vendor/plugins/rutils-0_2_3/lib/gilenson/gilenson_rb.html">
+                vendor/plugins/rutils-0.2.3/lib/gilenson/gilenson.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="../../Object.html">
+                Object
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Что такое <a href="../Gilenson.html">Gilenson</a></h2>
+<p>
+Обработчик типографских символов в HTML
+согласно общепринятым правилам.
+Посвящается П.Г.Гиленсону[<a
+href="http://www.rudtp.ru/lib.php?book=172">www.rudtp.ru/lib.php?book=172</a>],
+благодаря которому русские правила тех.
+редактуры еще как минимум 20 лет
+останутся столь-же бессмысленно
+старомодными и строгими.
+</p>
+<p>
+<a href="../Gilenson.html">Gilenson</a> расставит в тексте
+&quot;умные&quot; правильные кавычки (русские
+- для кириллицы, английские - для
+латиницы), заменит &quot;хитрые&quot;
+пунктуационные символы на entities и
+отформатирует знаки типа (c), (tm), телефоны
+и адреса.
+</p>
+<p>
+<a href="../Gilenson.html">Gilenson</a> базируется на коде
+<a href="http://pixel-apes.com/typografica">Typografica</a> от PixelApes,
+который был приведен к положенному в Ruby
+стандарту. Основные отличия <a
+href="../Gilenson.html">Gilenson</a> от Typografica на PHP:
+</p>
+<pre>
+  * работа только и полностью в UTF-8 (включая entities, применимые в XML)
+  * поддержка &quot;raw&quot;-вывода (символов вместо entities) - текст выводимый GIlenson можно верстать на бумаге
+</pre>
+<p>
+Если вам нужно получать идентичный
+Typografica вывод, пользуйтесь <a
+href="Obsolete.html">RuTils::Gilenson::Obsolete</a> вместо <a
+href="Formatter.html">RuTils::Gilenson::Formatter</a>.
+</p>
+<h2>Использование</h2>
+<p>
+Быстрее всего - через метод +<tt>gilensize</tt>+
+для любой строковой переменной
+</p>
+<pre>
+  %{ И вот они таки &quot;приехали&quot;}.gilensize =&gt; 'И&amp;#160;вот они&amp;#160;таки &amp;#171;приехали&amp;#187;'
+</pre>
+<p>
+Все дополнительные настройки в таком
+случае передаются форматтеру
+</p>
+<pre>
+  %{ И вот они таки &quot;приехали&quot;}.gilensize(:laquo=&gt;false) =&gt; 'И&amp;#160;вот они&amp;#160;таки &quot;приехали&quot;'
+</pre>
+<p>
+Если форматтер надо настроить более
+тонко, можно использовать его и так:
+</p>
+<pre>
+  typ = RuTils::Gilenson.new('Эти &quot;так называемые&quot; великие деятели')
+  typ.to_html =&gt; 'Эти &amp;#171;так называемые&amp;#187; великие деятели'
+</pre>
+<p>
+или как фильтр
+</p>
+<pre>
+  formatter = RuTils::Gilenson.new
+  formatter.configure(:dash=&gt;true)
+  for string in strings
+    puts formatter.process(string)
+  end
+</pre>
+<h2>Настройки</h2>
+<p>
+Настройки регулируются через методы
+</p>
+<pre>
+  formatter.dashglue = true
+</pre>
+<p>
+или ассоциированным хешем
+</p>
+<pre>
+  formatter.configure!(:dash=&gt;true, :quotes=&gt;false)
+</pre>
+<p>
+Хеш также можно передавать как последний
+аргумент методам <a
+href="Formatter.html#M000031">process</a> и <a
+href="Formatter.html#M000032">to_html</a>, в таком случае
+настройки будут применены только при
+этом вызове
+</p>
+<pre>
+  beautified = formatter.process(my_text, :dash=&gt;true)
+</pre>
+<p>
+В параметры можно подставить также ключ
+:all чтобы временно включить или выключить
+все фильтры
+</p>
+<pre>
+  beautified = formatter.process(my_text, :all=&gt;true)
+</pre>
+<p>
+Помимо этого можно пользоваться каждым
+фильтром по отдельности используя метод
+<tt><a href="Formatter.html#M000033">apply</a></tt>
+</p>
+<p>
+Можно менять глифы, которые форматтер
+использует для подстановок. К примеру,
+</p>
+<pre>
+  formatter.glyph[:nbsp] = '&amp;nbsp;'
+</pre>
+<p>
+заставит форматтер расставлять
+&quot;традиционные&quot; неразрывные пробелы.
+Именно это - большая глупость, но другие
+глифы заменить может быть нужно.
+</p>
+<h2>Настройки форматтера</h2>
+<pre>
+  &quot;inches&quot; - преобразовывать дюймы в знак дюйма;
+  &quot;laquo&quot; - кавычки-ёлочки
+  &quot;quotes&quot; - кавычки-английские лапки
+  &quot;dash&quot; -  проставлять короткое тире (150)
+  &quot;emdash&quot; - длинное тире двумя минусами (151)
+  &quot;initials&quot; - проставлять тонкие шпации в инициалах
+  &quot;copypaste&quot; - замена непечатных и &quot;специальных&quot; юникодных символов на entities
+  &quot;(c)&quot; - обрабатывать знак копирайта
+  &quot;(r)&quot;, &quot;(tm)&quot;, &quot;(p)&quot;, &quot;+-&quot; - спецсимволы, какие - понятно
+  &quot;acronyms&quot; - сворачивание пояснений к аббревиатурам (пояснение - в скобках после аббревиатуры
+               без пробела). В текстовой версии пояснение будет &quot;приклеено&quot; к аббревиатуре
+               полукруглой шпацией
+  &quot;degrees&quot; - знак градуса
+  &quot;dashglue&quot;, &quot;wordglue&quot; - приклеивание предлогов и дефисов
+  &quot;spacing&quot; - запятые и пробелы, перестановка
+  &quot;phones&quot; - обработка телефонов
+  &quot;html&quot; - при false - запрет использования тагов html
+  &quot;de_nobr&quot; - при true все &lt;nobr/&gt; заменяются на &lt;span class=&quot;nobr&quot;/&gt;
+  &quot;raw_output&quot; - (по умолчанию false) - при true вместо entities выводятся UTF-символы
+  &quot;skip_attr&quot; - (по умолчанию false) - при true не отрабатывать типографику в атрибутах тегов (title, alt)
+  &quot;skip_code&quot; - (по умолчанию true) - при true не отрабатывать типографику внутри &lt;code/&gt;, &lt;tt/&gt;, CDATA
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000033">apply</a>&nbsp;&nbsp;
+      <a href="#M000030">configure</a>&nbsp;&nbsp;
+      <a href="#M000029">configure!</a>&nbsp;&nbsp;
+      <a href="#M000028">new</a>&nbsp;&nbsp;
+      <a href="#M000031">process</a>&nbsp;&nbsp;
+      <a href="#M000032">to_html</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VERBATIM_GLYPHS</td>
+          <td>=</td>
+          <td class="context-item-value">{     ' '         =&gt; :nbsp,# alt+0160 (NBSP here)     '«'         =&gt; :laquo,     '»'         =&gt; :raquo,     '§'         =&gt; :sect,     '©'         =&gt; :copy,     '®'         =&gt; :reg,     '°'         =&gt; :deg,     '±'         =&gt; :plusmn,     '¶'         =&gt; :para,     '·'         =&gt; :middot,     '–'         =&gt; :ndash,     '—'         =&gt; :mdash,     '‘'         =&gt; :lsquo,     '’'         =&gt; :rsquo,     '“'         =&gt; :ldquo,     '”'         =&gt; :rdquo,     '„'         =&gt; :bdquo,     '•'         =&gt; :bull,     '…'         =&gt; :hellip,     '№'         =&gt; :numero,     '™'         =&gt; :trade,     '−'         =&gt; :minus,     ' '         =&gt; :thinsp,     '″'         =&gt; :inch,    }</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Нормальные &quot;типографские&quot; символы в
+UTF-виде. Браузерами обрабатываются
+плохонько, поэтому лучше заменять их на
+entities.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">REPLACEMENT_MARKER</td>
+          <td>=</td>
+          <td class="context-item-value">RuTils::SUBSTITUTION_MARKER.freeze #:nodoc:</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Для маркера мы применяем UTF-BOM чтобы его
+НЕЛЬЗЯ было перепутать с частью любого
+другого мультибайтного глифа. Thanks to huNter.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">FORBIDDEN_NUMERIC_ENTITIES</td>
+          <td>=</td>
+          <td class="context-item-value">{      '132'       =&gt; :bdquo,      '133'       =&gt; :hellip,      '146'       =&gt; :apos,      '147'       =&gt; :ldquo,      '148'       =&gt; :rdquo,      '149'       =&gt; :bull,      '150'       =&gt; :ndash,      '151'       =&gt; :mdash,      '153'       =&gt; :trade,    }</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Кто придумал &amp;147;? Не учите людей
+плохому&#8230; Привет А.Лебедеву <a
+href="http://www.artlebedev.ru/kovodstvo/62">www.artlebedev.ru/kovodstvo/62</a>/
+Используем символы, потом берем по
+символам из glyphs форматтера. Молодец mash!
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">glyph</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">settings</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="#M000028" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000028-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000028-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/gilenson/gilenson.rb, line 215</span>
+215:    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+216:      <span class="ruby-ivar">@_text</span> = <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">:</span> <span class="ruby-value str">''</span>
+217:      <span class="ruby-identifier">setup_default_settings!</span>
+218:      <span class="ruby-identifier">accept_configuration_arguments!</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+219:    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
+          <span class="method-name">apply</span><span class="method-args">(filter, text, lift_ignored_elements = true)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Применяет отдельный фильтр к text и
+возвращает результат. Например:
+</p>
+<pre>
+ formatter.apply(:wordglue, &quot;Вот так&quot;) =&gt; &quot;Вот&amp;#160;так&quot;
+</pre>
+<p>
+Удобно применять когда вам нужно
+задействовать отдельный фильтр
+Гиленсона, но не нужна остальная
+механика Последний аргумент определяет,
+нужно ли при применении фильтра
+сохранить в неприкосновенности таги и
+другие игнорируемые фрагменты текста (по
+умолчанию они сохраняются).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/gilenson/gilenson.rb, line 336</span>
+336:    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">apply</span>(<span class="ruby-identifier">filter</span>, <span class="ruby-identifier">text</span>, <span class="ruby-identifier">lift_ignored_elements</span> = <span class="ruby-keyword kw">true</span>)
+337:      <span class="ruby-identifier">copy</span> = <span class="ruby-identifier">text</span>.<span class="ruby-identifier">dup</span>
+338:      <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">lift_ignored_elements</span>
+339:        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;process_#{filter}&quot;</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">copy</span>)
+340:      <span class="ruby-keyword kw">else</span>
+341:        <span class="ruby-identifier">lifting_fragments</span>(<span class="ruby-identifier">copy</span>) { <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;process_#{filter}&quot;</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">copy</span>) }
+342:      <span class="ruby-keyword kw">end</span>
+343:      <span class="ruby-identifier">copy</span>
+344:    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <span class="method-name">configure</span><span class="method-args">(*config)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="Formatter.html#M000030">configure</a>!
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="#M000029" class="method-signature">
+          <span class="method-name">configure!</span><span class="method-args">(*config)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Настраивает форматтер ассоциированным
+хешем
+</p>
+<pre>
+ formatter.configure!(:dash=&gt;true, :wordglue=&gt;false)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000029-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000029-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/gilenson/gilenson.rb, line 223</span>
+223:    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">configure!</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">config</span>)
+224:      <span class="ruby-identifier">accept_configuration_arguments!</span>(<span class="ruby-identifier">config</span>.<span class="ruby-identifier">last</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+225:    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="#M000031" class="method-signature">
+          <span class="method-name">process</span><span class="method-args">(text_to_process, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Обрабатывает text_to_process с сохранением
+настроек, присвоенных
+обьекту-форматтеру Дополнительные
+аргументы передаются как параметры
+форматтера и не сохраняются после
+прогона.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000031-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/gilenson/gilenson.rb, line 239</span>
+239:    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process</span>(<span class="ruby-identifier">text_to_process</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+240:      <span class="ruby-ivar">@_text</span> = <span class="ruby-identifier">text_to_process</span>
+241:      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+242:        <span class="ruby-identifier">with_configuration</span>(<span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>) { <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">to_html</span> }
+243:      <span class="ruby-keyword kw">else</span>
+244:        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">to_html</span>
+245:      <span class="ruby-keyword kw">end</span>
+246:    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="#M000032" class="method-signature">
+          <span class="method-name">to_html</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Обрабатывает текст, присвоенный
+форматтеру при создании и возвращает
+результат обработки.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/gilenson/gilenson.rb, line 249</span>
+249:    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_html</span>()
+250:      <span class="ruby-keyword kw">return</span> <span class="ruby-value str">''</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@_text</span>
+251:      
+252:      <span class="ruby-identifier">text</span> = <span class="ruby-ivar">@_text</span>.<span class="ruby-identifier">strip</span>
+253:    
+254:      <span class="ruby-comment cmt"># -4. запрет тагов html</span>
+255:      <span class="ruby-identifier">process_escape_html</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;html&quot;</span>]
+256:    
+257:      <span class="ruby-comment cmt"># -3. Никогда (вы слышите?!) не пущать лабуду &amp;#not_correct_number;</span>
+258:      <span class="ruby-constant">FORBIDDEN_NUMERIC_ENTITIES</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">each_pair</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">rep</span> <span class="ruby-operator">|</span>
+259:        <span class="ruby-identifier">text</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-node">/&amp;##{key};/</span>, <span class="ruby-identifier">glyph</span>[<span class="ruby-identifier">rep</span>])
+260:      <span class="ruby-keyword kw">end</span>
+261:    
+262:      <span class="ruby-comment cmt"># -2. Чистим copy&amp;paste</span>
+263:      <span class="ruby-identifier">process_copy_paste_clearing</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">'copypaste'</span>]
+264:    
+265:      <span class="ruby-comment cmt"># -1. Замена &amp;entity_name; на входе ('&amp;nbsp;' =&gt; '&amp;#160;' и т.д.)</span>
+266:      <span class="ruby-identifier">process_html_entities</span>(<span class="ruby-identifier">text</span>)
+267:    
+268:      <span class="ruby-comment cmt"># 0. Вырезаем таги</span>
+269:      <span class="ruby-identifier">tags</span> = <span class="ruby-identifier">lift_ignored_elements</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@skip_tags</span>
+270:    
+271:      <span class="ruby-comment cmt"># 1. Запятые и пробелы</span>
+272:      <span class="ruby-identifier">process_spacing</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;spacing&quot;</span>]
+273:    
+274:      <span class="ruby-comment cmt"># 3. Спецсимволы</span>
+275:      <span class="ruby-comment cmt"># 0. дюймы с цифрами</span>
+276:      <span class="ruby-comment cmt"># заменено на инчи</span>
+277:      <span class="ruby-identifier">process_inches</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;inches&quot;</span>]
+278:    
+279:      <span class="ruby-comment cmt"># 1. лапки</span>
+280:      <span class="ruby-identifier">process_quotes</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;quotes&quot;</span>]
+281:      
+282:      <span class="ruby-comment cmt"># 2. ёлочки</span>
+283:      <span class="ruby-identifier">process_laquo</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;laquo&quot;</span>]
+284:    
+285:      <span class="ruby-comment cmt"># 2b. одновременно ёлочки и лапки</span>
+286:      <span class="ruby-identifier">process_compound_quotes</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;quotes&quot;</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;laquo&quot;</span>])
+287:    
+288:      <span class="ruby-comment cmt"># 3. тире</span>
+289:      <span class="ruby-identifier">process_dash</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;dash&quot;</span>]
+290:    
+291:      <span class="ruby-comment cmt"># 3a. тире длинное</span>
+292:      <span class="ruby-identifier">process_emdash</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;emdash&quot;</span>]
+293:    
+294:      <span class="ruby-comment cmt"># 5. +/-</span>
+295:      <span class="ruby-identifier">process_plusmin</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;+-&quot;</span>]
+296:    
+297:      <span class="ruby-comment cmt"># 5a. 12^C</span>
+298:      <span class="ruby-identifier">process_degrees</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;degrees&quot;</span>]
+299:    
+300:      <span class="ruby-comment cmt"># 6. телефоны</span>
+301:      <span class="ruby-identifier">process_phones</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;phones&quot;</span>]
+302:    
+303:      <span class="ruby-comment cmt"># 7. Короткие слова и &amp;nbsp;</span>
+304:      <span class="ruby-identifier">process_wordglue</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;wordglue&quot;</span>]
+305:    
+306:      <span class="ruby-comment cmt"># 8. Склейка ласт. Тьфу! дефисов.</span>
+307:      <span class="ruby-identifier">process_dashglue</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;dashglue&quot;</span>]
+308:    
+309:      <span class="ruby-comment cmt"># 8a. Инициалы</span>
+310:      <span class="ruby-identifier">process_initials</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">'initials'</span>]
+311:    
+312:      <span class="ruby-comment cmt"># 8b. Троеточия</span>
+313:      <span class="ruby-identifier">process_ellipsises</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;wordglue&quot;</span>]
+314:    
+315:      <span class="ruby-comment cmt"># 9. Акронимы от Текстиля</span>
+316:      <span class="ruby-identifier">process_acronyms</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;acronyms&quot;</span>]
+317:      
+318:      <span class="ruby-comment cmt"># БЕСКОНЕЧНОСТЬ. Вставляем таги обратно.</span>
+319:      <span class="ruby-identifier">reinsert_fragments</span>(<span class="ruby-identifier">text</span>, <span class="ruby-identifier">tags</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@skip_tags</span>
+320:    
+321:      <span class="ruby-comment cmt"># фуф, закончили.</span>
+322:      <span class="ruby-identifier">process_span_instead_of_nobr</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;de_nobr&quot;</span>]
+323:    
+324:      <span class="ruby-comment cmt"># заменяем entities на истинные символы</span>
+325:      <span class="ruby-identifier">process_raw_output</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@settings</span>[<span class="ruby-value str">&quot;raw_output&quot;</span>]
+326:      
+327:      <span class="ruby-identifier">text</span>.<span class="ruby-identifier">strip</span>
+328:    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>vendor/plugins/rutils-0.2.3/README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Sun Mar 02 20:18:12 +0800 2008</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h2>Добро пожаловать в <a href="../../../../classes/RuTils.html">RuTils</a></h2>
+<p>
+<a href="../../../../classes/RuTils.html">RuTils</a> - простой
+обработчик русского текста на Ruby.
+Основная цель <a
+href="../../../../classes/RuTils.html">RuTils</a> - сделать
+разработку русскоязычных приложений на
+Ruby (и Rails) максимально простой и приятной
+(в идеале - столь же простой как и
+разработку оных на английском)
+</p>
+<p>
+Весь функционал <a
+href="../../../../classes/RuTils.html">RuTils</a> поддерживает
+только UTF-8 (настройка $KCODE / KanjiCode &#8216;u&#8217;).
+Стандартно работа <a
+href="../../../../classes/RuTils.html">RuTils</a> проверяется
+как на стандартной версии Ruby, так и на
+парсере регулярных выражений Oniguruma
+(правда имейте в виду, что с ним Gilenson
+работает медленнее).
+</p>
+<p>
+Пожалуйста упоминайте версию при
+сообщении ошибок. Версию RUTILS всегда
+можно узнать в константе
+</p>
+<pre>
+  RuTils::VERSION
+</pre>
+<p>
+Удостоверьтесь, что ваш скрипт правильно
+обрабатывает Unicode - то есть:
+</p>
+<ul>
+<li>Переменная $KCODE включена в режим &#8216;u&#8216;
+
+</li>
+<li>Все строки которые вы собираетесь
+обрабатывать уже в кодировке UTF-8
+
+</li>
+</ul>
+<p>
+Если вы используете <a
+href="../../../../classes/RuTils.html">RuTils</a> для сайта под
+mod_ruby воспользуйтесь директивой RubyKanjiCode в
+своем httpd.conf.
+</p>
+<p>
+Большое спасибо Роману Иванову aka Kukutz и
+Николаю Яремко aka Kuso Mendokuzee за реализацию
+большинства алгоритмов на PHP.
+</p>
+<p>
+Разработку <a href="../../../../classes/RuTils.html">RuTils</a>
+ведут <a href="http://live.julik.nl">Julik</a> и <a
+href="http://imfo.ru">Mash</a>
+</p>
+<h2>Cумма прописью и выбор числительного</h2>
+<p>
+<a href="../../../../classes/RuTils.html">RuTils</a> реализует
+сумму прописью для целых и дробных чисел,
+с дополнительным учетом рода. Например:
+</p>
+<pre>
+  4.propisju =&gt; &quot;четыре&quot;
+  345.propisju =&gt; &quot;триста сорок пять&quot;
+  231.propisju(2) =&gt; &quot;двести тридцать одна&quot;
+  341.propisju_items(1, &quot;чемодан&quot;, &quot;чемодана&quot;, &quot;чемоданов&quot;) =&gt; &quot;триста сорок один чемодан&quot;
+  (212.40).propisju_items(2, &quot;сволочь&quot;, &quot;сволочи&quot;, &quot;сволочей&quot;) =&gt; &quot;двести двенадцать целых четыре десятых сволочи&quot;
+</pre>
+<p>
+Также реализуется выбор варианта
+числительного в зависимости от числа
+</p>
+<pre>
+  15.items(&quot;кодер&quot;, &quot;кодера&quot;, &quot;кодеров&quot;) =&gt; &quot;кодеров&quot;
+</pre>
+<p>
+и вывод &quot;суммы прописью&quot; для
+денежных сумм
+</p>
+<pre>
+  (413.2).rublej =&gt; &quot;четыреста тринадцать рублей двадцать копеек&quot;
+</pre>
+<h2>Транслит</h2>
+<p>
+<a href="../../../../classes/RuTils.html">RuTils</a> на данный
+момент реализует простейший транслит
+&quot;в одну сторону&quot; и
+&quot;взаимно-однозначный транслит&quot;
+(BiDi-транслит).
+</p>
+<p>
+Простейший транслит &quot;в одну
+сторону&quot;.
+</p>
+<pre>
+  &quot;Вот такое вот дело&quot;.translify =&gt; &quot;Vot takoye vot delo&quot;
+  &quot;Несомненный прогресс по сравнению с PHP&quot;.dirify =&gt; &quot;nesomnennyi-progress-po-sravneniu-s-php&quot;
+</pre>
+<h2>BiDi-транслит</h2>
+<p>
+Порт <a
+href="http://pixel-apes.com/translit/article#h256-10">BiDiTranslit</a> от
+Pixel Apes. Реализует транслитерацию &quot;в обе
+стороны&quot;, предоставляя возможность
+получить валидный URL из строки,
+содержащей русские и английские буквы. С
+некоторыми потерями (запятых и прочих
+&quot;слабозначащих&quot; символов) возможно
+восстановление исходной строки.
+</p>
+<p>
+Два режима работы:
+</p>
+<ul>
+<li>Уничтожение всех слешей, которые
+встретятся во входной строке. В этом
+случае методы вызываются с передачей в
+них false. Например,
+&quot;Web/Скрипты&quot;.bidi_translify(false)
+
+</li>
+<li>Пропуск слэшей (используется по
+умолчанию). Например,
+&quot;Web/+Skripty&quot;.bidi_detranslify
+
+<p>
+&quot;WebРазработка/Скрипты&quot;.bidi_translify =&gt;
+&quot;Web+Razrabotka+/+Skripty&quot;
+&quot;+Ustanovka__+mod_perl&quot;.bidi_detranslify =&gt;
+&quot;Установка mod_perl&quot;
+&quot;WebРазработка/Мимо&quot;.bidi_translify(false) =&gt;
+&quot;Web+RazrabotkaMimo&quot;
+&quot;<tt>PKHP</tt>/Scripts&quot;.bidi_detranslify(false) =&gt;
+&quot;ПХПScripts&quot;
+</p>
+</li>
+</ul>
+<h2>Обработка русской типографики в HTML</h2>
+<p>
+Gilenson - порт <a
+href="http://pixel-apes.com/typografica">Typografica</a> от Pixel Apes.
+Тыпографица - механизм автоматической
+расстановки подстановок в тексте перед
+его выводом в HTML, оформляющий
+неразрывные пробелы, типографские
+кавычки и тому подобные
+&quot;украшательства&quot;.
+</p>
+<p>
+Gilenson расставит в тексте &quot;умные&quot;
+правильные кавычки (русские - для
+кириллицы, английские - для латиницы),
+заменит &quot;хитрые&quot; пунктуационные
+символы на entities и отформатирует знаки
+типа (c), (tm), телефоны и адреса.
+</p>
+<pre>
+  %q{&quot;И это называется языком?&quot;, -- таков был его вопрос}.gilensize =&gt;
+    &quot;&amp;#171;И это&amp;#160;называется языком?&amp;#187;, &amp;#8212; таков был&amp;#160;его вопрос&quot;
+</pre>
+<p>
+Более подробная документация по Gilenson
+доступна в документах к <a
+href="../../../../classes/RuTils/Gilenson/Formatter.html">RuTils::Gilenson::Formatter</a>
+</p>
+<p>
+В комплекте также есть скрипт gilensize,
+которым можно поточно обрабатывать
+Unicode-тексты в среде UNIX пользуясь
+стандартным выводом
+</p>
+<pre>
+  $ cat myfile.txt | gilensize &gt; myfile.html
+</pre>
+<h2>Даты</h2>
+<p>
+В класс <a href="../../../../classes/Date.html">Date</a>
+введены следующие константы:
+</p>
+<pre>
+  * RU_MONTHNAMES (Январь Февраль Март...)
+  * RU_DAYNAMES (Воскресенье Понедельник...)
+  * RU_ABBR_MONTHNAMES (Янв Фев Мар...)
+  * RU_ABBR_DAYNAMES (Вск Пн Вт Ср...)
+  * RU_INFLECTED_MONTHNAMES (Января Февраля Марта...)
+  * RU_DAYNAMES_E (первое второе третье...)
+</pre>
+<p>
+Пример использования:
+</p>
+<pre>
+  require 'date'
+  date = Date.new(2005, 11, 9)
+  puts &quot;#{Date::RU_ABBR_MONTHNAMES[date.mon]}&quot;   =&gt; Ноя
+  puts &quot;#{Date::RU_MONTHNAMES[date.mon]}&quot;        =&gt; Ноябрь
+  puts &quot;#{Date::RU_ABBR_DAYNAMES[date.wday]}&quot;    =&gt; Ср
+  puts &quot;#{Date::RU_DAYNAMES[date.wday]}&quot;         =&gt; Среда
+</pre>
+<p>
+При включенной перезагрузке функций
+(RuTils::overrides_enabled) осуществляется
+&quot;покрытие&quot; стандартной функции <a
+href="../../../../classes/Time.html#M000005">Time#strftime</a>
+(&quot;родную&quot; strftime можно продолжать
+использовать через alias-метод strftime_norutils):
+</p>
+<pre>
+  Time.local(2005,&quot;dec&quot;,31).strftime(&quot;%a, %A, %b, %B&quot;)          =&gt; &quot;Сб, Суббота, Дек, Декабрь&quot;
+  Time.local(2005,&quot;dec&quot;,31).strftime_norutils(&quot;%a, %A, %b, %B&quot;) =&gt; &quot;Sat, Saturday, Dec, December&quot;
+</pre>
+<h2>Интеграция с Rails, RedCloth и BlueCloth</h2>
+<p>
+<a href="../../../../classes/RuTils.html">RuTils</a> в первую
+очередь задумывался как максимально
+&quot;прозрачный&quot; механизм обработки
+русского текста в контексте
+Rails-приложения. В связи с этим <a
+href="../../../../classes/RuTils.html">RuTils</a>
+&quot;вторгается&quot; в работу других
+Ruby-модулей и изменяет механизм их работы.
+</p>
+<p>
+Если вы используете <a
+href="../../../../classes/RuTils.html">RuTils</a> в одном
+приложении с RedCloth или BlueCloth, <a
+href="../../../../classes/RuTils.html">RuTils</a>
+автоматически будет обрабатывать
+типографику во всех текстах,
+пропускаемых через них. Имейте в виду,
+что для корректной работы этой функции <a
+href="../../../../classes/RuTils.html">RuTils</a> надо
+загружать *после* модулей RedCloth и BlueCloth.
+</p>
+<p>
+Помимо этого <a
+href="../../../../classes/RuTils.html">RuTils</a> заставляет
+следующие функции Rails говорить по-русски:
+</p>
+<ul>
+<li>Меню выбора даты (<tt>date_select</tt> и
+<tt>datetime_select</tt>) будут выводиться с
+русскими именами месяцев
+
+</li>
+<li><tt>distance_of_time_in_words</tt> будет выводить
+русские описания длительности (&quot;более
+2 часов&quot;)
+
+</li>
+</ul>
+<p>
+Перегрузку всех функций других модулей
+можно включать и отключать в любое время
+с помощью метода RuTils::overrides=. Когда
+перегрузка выключена, все сторонние
+библиотеки будут работать в стандартном
+режиме (например, RedCloth будет расставлять
+английские типографские кавычки). Это
+нужно когда вам нужно переключиться на
+английский (или любой другой язык) без
+перезапуска приложения.
+</p>
+<p>
+Если вы хотите использовать rutils как
+дополнение к Rails в одном конкретном
+приложении, скопируйте директорию rutils в
+папку vendor/plugins вашего приложения. Вы
+можете воспользоваться командой rutilize
+чтобы сделать это автоматически. После
+этого вы сможете использовать <a
+href="../../../../classes/RuTils.html">RuTils</a> без
+необходимости установки gem&#8217;а на вашем
+сервере (не забудьте перезапустить
+приложение чтобы вгрузить в него <a
+href="../../../../classes/RuTils.html">RuTils</a>).
+</p>
+<pre>
+  $ rutilize /Sites/my_app1 /Sites/my_app2 /Sites/my_another_app
+</pre>
+<p>
+Вы можете свободно распространять <a
+href="../../../../classes/RuTils.html">RuTils</a> со своим
+Rails-приложением при условии сохранения
+структуры и файла README.
+</p>
+<h2>Требования</h2>
+<ul>
+<li>Ruby 1.8.2, немного прямых рук.
+
+</li>
+<li><a href="http://rake.rubyforge.org">Rake</a>, <a
+href="http://rubyonrails.org">Rails</a>, <a
+href="http://www.whytheluckystiff.net/ruby/redcloth/">RedCloth</a> и <a
+href="http://www.deveiate.org/projects/BlueCloth">BlueCloth</a> для
+выполнения тестов
+
+</li>
+</ul>
+<h2>Как использовать</h2>
+<p>
+Просто включите rutils в свою программу как
+gem
+</p>
+<pre>
+  require_gem 'rutils'
+</pre>
+<p>
+или как библиотеку
+</p>
+<pre>
+  require 'rutils'
+</pre>
+<h2>Где получить помощь</h2>
+<p>
+На странице проекта на <a
+href="http://rubyforge.org/projects/rutils">RubyForge</a>
+</p>
+<h2>Работает ли это с текстом в кодировке Windows-1251</h2>
+<p>
+Нет и никогда не будет.
+</p>
+<h2>Реальные проекты</h2>
+<p>
+В настоящее время <a
+href="../../../../classes/RuTils.html">RuTils</a> используется
+на следующих сайтах:
+</p>
+<ul>
+<li><a href="http://artonica.ru">artonica.ru</a>
+
+</li>
+<li><a href="http://radar.cinemac.ru">radar.cinemac.ru</a>
+
+</li>
+</ul>
+<p>
+Если вы используете <a
+href="../../../../classes/RuTils.html">RuTils</a> в своей
+работе пожалуйста сообщайте нам об этом
+чтобы мы могли включить ваши приложения
+и сайты в список.
+</p>
+<h2>Как ускорить реализацию новых функций</h2>
+<p>
+Воспользуйтесь трекером на RubyForge.
+Опишите нужный вам функционал и
+приложите (по возможности) тесты, которым
+этот функционал должен удовлетворять.
+Схему организации тестов вы можете
+скопировать из собственных тестов <a
+href="../../../../classes/RuTils.html">RuTils</a>.
+</p>
+<p>
+Если вы пишете исходный код, который
+войдет в <a href="../../../../classes/RuTils.html">RuTils</a> или
+в тестовые наборы, пожалуйста следуйте
+следующим правилам оформления кода:
+</p>
+<ul>
+<li>Unix line breaks (LF)
+
+</li>
+<li>Кодировка файлов - строго UTF-8 без BOM (Byte Order
+Mark)
+
+</li>
+<li>Отступы в 2 пробела, без табуляций.
+
+</li>
+<li>Однострочные блоки с фигурными скобками,
+многострочные - с +do &#8230; end+
+
+</li>
+<li>Все другие конвенции нормального
+написания Ruby-кода (<a
+href="http://www.rubygarden.org/ruby/ruby?RubyStyleGuide">www.rubygarden.org/ruby/ruby?RubyStyleGuide</a>)
+
+</li>
+</ul>
+<p>
+Мы используем пробелы поскольку
+табулятор означает автозаполнение в IRB
+(Interactive Ruby Shell)
+</p>
+<p>
+Если вы хотите участвовать в разработке
+<a href="../../../../classes/RuTils.html">RuTils</a> пользуйтесь
+CVS проекта.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

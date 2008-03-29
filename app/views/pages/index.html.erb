@@ -1,0 +1,9 @@
+<h2>Список страничек</h2>
+<% @pages.each do |page| %>
+<p><%= link_to page.title, "/page/" + page.url %> 
+<% if logged_in? then %>
+[<%= link_to "редактировать", edit_page_path(page.id) %>]
+[<%= link_to "удалить", {:controller => "pages", :action => "destroy", :id => page.id}, :confirm => "Вот ты точно уверен, да?", :method => :delete %>]
+<% end %></p>
+
+<% end %>

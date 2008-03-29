@@ -1,0 +1,49 @@
+<%%= error_messages_for '<%= file_name %>' %>
+<%% form_for :<%= file_name%>, @<%= file_name%>, :url => {
+    :controller => :<%= controller_file_name %>,
+    :action => :index
+} do |f| %>
+
+    <p>
+        <label>Jabber Username (required)</label>
+        <%%= f.text_field :jabber_name %>
+    </p>
+    <p>
+        <label>Jabber Password (required)</label>
+        <%%= f.password_field :jabber_password %>
+    </p>
+    <p>
+        <label>AIM Username</label>
+        <%%= f.text_field :aim_name %>
+    </p>
+    <p>
+        <label>AIM Password</label>
+        <%%= f.password_field :aim_password %>
+    </p>
+    <p>
+        <label>Yahoo Username</label>
+        <%%= f.text_field :yahoo_name %>
+    </p>
+    <p>
+        <label>Yahoo Password</label>
+        <%%= f.password_field :yahoo_password %>
+    </p>
+    <p>
+        <label>ICQ Username</label>
+        <%%= f.text_field :icq_name %>
+    </p>
+    <p>
+        <label>ICQ Password</label>
+        <%%= f.password_field :icq_password %>
+    </p>
+    <p>
+        <label>Google Username</label>
+        <%%= f.text_field :google_name %>
+    </p>
+    <p>
+        <label>Google Password</label>
+        <%%= f.password_field :google_password %>
+    </p>
+    <%%= submit_tag "Start chatting" %>
+<%% end %>
+

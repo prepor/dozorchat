@@ -1,0 +1,20 @@
+<div class="form" style=" margin-top: 100px;">
+	<div id="errors" class="error">
+		
+	</div>
+	<div id="pass_div">
+		<% form_remote_tag :url => {:controller => "chat_users", :action => "check_pass", :team_id => @team.id}, :method => :post do -%>
+		<br/>
+		<p>Пароль к чату команды "<%= @team.title %>"<br/>
+		<%= password_field_tag 'pass' %></p>
+
+		<p><%= submit_tag 'Проверить' %></p>
+
+		<% end -%>
+	</div>
+	<div align="left" id="user_div" style="display: none">
+
+	</div>
+</div>
+
+

@@ -1,0 +1,256 @@
+== can_has_chat Rails plugin ==
+
+
+can_has_chat adds easy Jabber server communication to your Rails app.  Using
+it, you can start a chat session and chat with multiple users at once, 
+even if they are on different IM networks (depending on your configuration).
+
+NOTE: can_has_chat relies on a dRuby server to manage its connections.  Using
+can_has_chat will add additional processing and memory overhead to your total
+application footprint.  
+
+
+=== GETTING STARTED ===
+
+can_has_chat relies on two different gems:
+
+XMPP4R (http://xmpp4r.rubyforge.org/), >sudo gem install xmpp4r
+JSON (http://json.rubyforge.org/), >sudo gem install json
+
+To use can_has_chat, install the plugin
+
+>cd <your rails app>
+>script/plugin install can_has_chat
+
+ 
+Once you've done this, a configuration file "chat_server.yml" will be copied
+into your app's config folder, and a file called "chat_server" will be copied
+into your app's script folder. Edit the file "chat_server.yml" and change
+the values to reflect your configuration; explanations for the different 
+parameters are commented within the config file.   If you don't have a Jabber
+server setup, you can install your own using server software like OpenFire 
+(http://www.igniterealtime.org/projects/openfire/index.jsp) or ejabberd
+(http://www.ejabberd.im/). (This plugin has been tested primarily with 
+OpenFire)  (Use of public jabber servers is also, obviously, an option,
+but please ensure you have permission to use the Jabber server before doing
+so)
+
+After editing the configuration file, you can create a basic chat system, or
+just start editing code directly.  To create a basic chat system, use the
+following command:
+
+>script/generate chat_system <ChatModel> <ChatController>
+
+where ChatModel is the name of your ActiveRecord model class that you want to
+have act as a chat "user", and ChatController is the controller that will
+host the actions which drive interaction with the chat server. 
+
+
+==== THE can_has_chat METHOD ====
+
+Once you've created the chat_system, open up the model file created by the 
+generator.  It should have a form like:
+
+class ChatModel < ActiveRecord::Base
+  can_has_chat  :user_attribute => :jabber_name,
+                :log_chats => false,
+                :namespace => "my_new_chat_application"
+end
+
+The can_has_chat method adds chat capabilities to the ChatModel object. The
+parameters being passed to in this case are:
+
+ user_attribute:  This is a Symbol which indicates a method to call on an
+  instance of your object to obtain the username with which to login into
+  the Jabber server with.  If you have configured chat_server.yml such that
+
+    use_anonymous_jabber: true
+
+  then this field is unnecessary.
+  
+ log_chats:  TOOD doc this when it's in there.
+ 
+ namespace: This is a String which is used to help generate unique hashes
+  for created chats.  
+
+If you wanted to enable multi-IM chat (eg, chat to AIM, Yahoo, or other 
+IM networks your Jabber server has transports for), you would pass the following
+parameter to can_has_chat:
+
+ transports: This is a Hash of transports you are configured to support,
+  and references to the methods which provide login credentials to those
+  networks for a given instance of the object.
+  
+  Example:
+  
+  can_has_chat :namespace => "My Multi-IM App",
+                 :transports => {
+                    :aim => :get_aim_nick,
+                    :icq => [:get_icq_nick],
+                    :yahoo => [:get_yahoo_nick, :get_yahoo_password]
+                 }
+  
+  You can see how in the case of the Yahoo transport above, you can pass in
+  both a method to fetch the user's yahoo nick, and their yahoo password 
+  (if you have access to it).
+  
+
+==== Starting the Chat Server ====
+
+Once you've finished your initial setup, you will want to startup the server.
+You can start the chat dRuby daemon by issuing the following command:
+
+
+>script/chat_server start
+
+
+chat_server supports additional arguments, use the "--help" flag to see
+available commands.
+
+==== Starting the Rails App ====
+
+If you are not using mongrel (god have mercy on your soul) and have used the
+chat_system generator, you will want to change the _chatbox.rhtml partial
+(follow the instructions in the file) to use the "server polling" method of
+chat.  If you ARE using mongrel, you can use the "server push" method of chat
+(a much more optimal choice).  
+  
+NOTE: Generating the "chat_system" also creates a custom Mongrel HTTP handler
+that will serve connections via a "push" connection.  This is not a /true/ push
+(or streaming, comet, etc.) connection, but rather, a sleeping HTTP thread
+that wakes (and completes) when new messages are received. The client is responsible
+for starting a new connection to the push url when the previous push URL has
+finished processing.  
+
+To use the push method, start your mongrel server with the following syntax:
+
+
+>mongrel_rails start -S ./<chat_controller_name>_mongrel_handler.rb
+
+
+Mongrel will now serve chat messages for started chats at the URL:
+
+
+/<chat_controller_name>/push
+
+
+Note that it serves this URL before any request hits the Rail stack.  This is
+done to avoid the overhead of creating the Rails stack, and also due to the 
+single threaded nature of Rails (eg. one request == one Mongrel == one Rails app == one thread).
+
+==== Chat! ====
+
+Go to http://localhost:3000/<chat controller name> to try out your new IM 
+client! 
+
+=== Page Templates ===
+
+When you create your own page templates that interact with the chat server 
+(as you almost certainly will), you can use the page helpers provided by the
+plugin to make it easy to respond to new messages, presence notifications and
+roster updates.
+
+Before you are able to use any of page helpers though, you need to initialize
+the code that they depend on by using the wait_for_messages function.  
+For example:
+
+<%= wait_for_messages(:url=>"/mychats/push?chat_id=some_chat_id") %>
+
+This will include the relevant Javascript and setup code that any of the other 
+page helpers depend on. The method takes three different options, but none are 
+required.  
+
+ :url is a string or hash, and may take the form of any arguments that you
+      would pass to url_for.
+ 
+ :polling is a boolean; this indicates whether or not you will be polling
+      the specified url over some interval.  This is the least efficient
+      method to check for messages, so please be careful with its use.
+
+ :frequency is a number which indicates the number of seconds between each
+      polling request.  This option is only relevant IF you are polling the
+      server.
+
+Once you've done this, you are now free to use the page helper methods.
+
+There are two sets of methods: the first take a block of html code, and will
+print out that html whenever the specified event occurs.  For instance:
+
+<% for_new_messages do |msg| %>
+    <li><%= msg.timestamp %>: [<%= msg.from %>] <%= msg.message %></li>
+<% end %>
+
+The msg variable that is passed to the block has the following methods:
+
+timestamp (a Javascript Date object)
+from (a String)
+message (a String)
+network (a String telling you which transport the message came from, or null if jabber)
+
+When you say <%= msg.timestamp %> in the block, can_has_chat inserts a token 
+into that spot and saves the HTML for when the server updates the page with a
+new message.  If you decided to insert your own Ruby code into the block as well,
+it would be executed when the page was first rendered, NOT when a new message was 
+received.  If you need to perform some logic on the message when it's received,
+you will need to use JavaScript to do it.  
+
+The methods that will do this are: for_presence_updates, for_roster, and 
+for_new_messages.
+
+The second type of helper methods for handling events on the page are the methods
+that execute a JavaScript function when a message is received.  An example of 
+this type of method:
+
+<%= call_for_presence_updates "presenceChange" %>
+
+This will call the JavaScript function "presenceChange" when the page receives
+a presence update.  The function / code you specify will have parameters passed
+to it in the following form:
+
+function(timestamp, from, message, network){ }
+
+The javascript calling page helper methods are: call_for_presence_updates, 
+call_for_roster, and call_for_new_messages .
+
+=== Etc. ===
+
+View the rdocs for code documentation and information regarding the public API.
+
+If you need to create objects which have chat capability but do not subclass
+ActiveRecord::Base, subclass CanHasChat::Util::ChattyObject.  (or simply
+include the module CanHasChat::Base)
+
+
+=== Credit ===
+
+Some very obvious influence (and many times, outright copying) from the
+acts_as_authenticated and acts_as_ferret libraries.  Additionally,
+the Mongrel handler code started out via http://adam.blogs.bitscribe.net/.
+
+Many thanks to the Indianapolis Star (http:/www.indystar.com, http://www.indy.com) 
+for allowing this code to be released into the Open Source domain.  
+
+=== License ===
+
+Copyright (c) 2008 Indianapolis Star
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.

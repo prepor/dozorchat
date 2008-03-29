@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Дозорный чат</title>
+<style type="text/css">
+body{
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+}
+input{
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+}
+textarea{
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+}
+#bar{
+margin-left: 20px;
+border-left: 1px dashed #666666;
+padding-left: 5px;
+}
+#bar .count_chat_users{
+cursor: pointer;
+text-decoration: underline;
+}
+#form{
+padding-bottom: 5px;
+margin-bottom: 15px;
+border-bottom: 1px solid #666666;
+}
+#messages .title{
+	font-size-adjust:inherit;
+	color: #666666;
+	font-weight: bold;
+	cursor: pointer;
+}
+#messages .title:hover{
+	text-decoration: underline;	
+}
+a{
+color: #990000;
+}
+a:hover{
+color:#CCCCCC
+color: #FF6600;
+}
+a:visited{
+color: #990000;
+}
+.info{
+font-size: 10px;
+color: #666666;
+}
+</style>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery.hotkeys.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+  	$("#add_crew").click(function(){
+		$("#add_crew_div").slideToggle("slow");
+	});
+	$("#change_name").click(function(){
+		$("#change_name_div").slideToggle("slow");
+	});
+	$("#change_crew").click(function(){
+		$("#change_crew_div").slideToggle("slow");
+	});
+	$.hotkeys.add('Shift+Return', function(){ 
+		alert($("#form #message").val());
+	
+	});
+	$.hotkeys.add('Shift+A', function(){ 
+		$("#bar #message_private").show();
+		$("#bar #message_all").hide();
+		$("#bar input[@type='checkbox']").each(function(){
+			this.checked = false
+		});
+		$("#bar input[@type='checkbox']").each(function(){
+			$(this).hide();
+		});
+		$("#form #privates").val("");
+	
+	});
+	
+	$("#bar input[@type='checkbox']").each(function(){
+		$(this).change(function(){
+			var privates = new Array();
+			var i=0;
+			$("#bar input[@type='checkbox']").each(function(){
+				if (this.checked == true){
+					privates[i]=$(this).val();
+					i++;
+				}
+			});
+			$("#form #privates").val(privates.join(','));
+			
+		})
+	});
+	$("#bar #message_private").click(function(){
+		$("#bar #message_private").hide();
+		$("#bar #message_all").show();
+		$("#bar input[@type='checkbox']").each(function(){
+			this.checked = false
+		});
+		$("#bar input[@type='checkbox']").each(function(){
+			$(this).show();
+		});
+		
+	});
+	
+	$("#bar #message_all").click(function(){
+		$("#bar #message_private").show();
+		$("#bar #message_all").hide();
+		$("#bar input[@type='checkbox']").each(function(){
+			this.checked = false
+		});
+		$("#bar input[@type='checkbox']").each(function(){
+			$(this).hide();
+		});
+		$("#form #privates").val("");
+	});
+	
+	$("#messages .title").click(function(){
+		$("#bar #message_private").hide();
+		$("#bar #message_all").show();
+		$("#bar input[@type='checkbox']").each(function(){
+			$(this).show();
+		});
+		$("#bar input[@type='checkbox'][value='"+$(this).attr("crew_id")+"']")[0].checked=true;
+		var privates = new Array();
+		var i=0;
+		$("#bar input[@type='checkbox']").each(function(){
+			if (this.checked == true){
+				privates[i]=$(this).val();
+				i++;
+			}
+		});
+		$("#form #privates").val(privates.join(','));
+	});
+	
+	
+ });
+</script>
+</head>
+
+<body>
+<script type="text/javascript" src="wz_tooltip.js"></script>
+<table width="100%%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="70%">
+    <div id="form">
+    <input type="hidden" id="privates" name="privates" value="" />
+    <textarea id="message" name="content" style="width: 80%" cols="45" rows="3"></textarea>
+      <input type="submit" name="button" id="button" value="Отправить" />
+      <br />
+<span class="info"><strong>Shift + Enter</strong> — отправить сообщение<br />
+Сообщение подпишется как &quot;штаб [Андрей]&quot;</span></div>
+</td>
+    <td rowspan="2" width="30%" valign="top">
+    <div id="bar" style="position: fixed; top: 2em; left: auto; right: 30px;">
+    <input type="checkbox" name="checkbox" id="is_private" style="display: none" value="1"/>
+Маджеста [<span class="count_chat_users" onmouseover="Tip('Игорь, Андрей, Саня')">3</span>]<br />
+<span class="info">где?</span> центральный рынок<br />
+<span class="info">куда?</span> автовокзал<br />
+<input type="checkbox" name="checkbox" id="is_private" style="display: none" value="2"/>
+Камри [3]<br />
+<input type="checkbox" name="checkbox" id="is_private" style="display: none" value="3" />
+Терана [3]<br />
+<input type="checkbox" name="checkbox" id="is_private" style="display: none" value="4" />
+Тино [3]<br />
+<input type="checkbox" name="checkbox" id="is_private" style="display: none" value="5" />
+МПВ [3]<br />
+<input type="checkbox" name="checkbox" id="is_private" style="display: none" value="6" />
+Алекс [3]<br />
+<input type="checkbox" name="checkbox" id="is_private" style="display: none" value="7" />
+Партнер [3]<br />
+<input type="checkbox" name="checkbox" id="is_private" style="display: none" value="8" />
+Карина [3]<br />
+<a id="message_all" href="#" style="display: none">всем</a> <a id="message_private" href="#">приватно</a><br />
+<br />
+Ваш экипаж...<br />
+где: 
+<input type="text" name="textfield3" id="textfield3" />
+<br />
+куда: 
+<input type="text" name="textfield2" id="textfield2" />
+<br />
+<input type="submit" name="button3" id="button3" value="Сохранить" />
+<br />
+<br />
+<a id="change_name" href="#">Сменить имя</a><br />
+<div id="change_name_div" style="display:none">
+  Название:<br />
+    <input type="text" name="textfield" id="textfield" />
+    <br />
+    <input type="submit" name="button2" id="button2" value="Сменить" />
+</div>
+<a id="change_crew" href="#">Сменить экипаж</a><br />
+<div id="change_crew_div" style="display:none">
+  <select name="select" id="select">
+    <option>Маджеста</option>
+    <option>Камри</option>
+    <option>Алекс</option>
+    <option>Партнер</option>
+  </select>
+  <br />
+    <input type="submit" name="button2" id="button2" value="Сменить" />
+</div>
+<a id="add_crew" href="#">Добавить новый экипаж</a>
+<div id="add_crew_div" style="display:none">
+  Название:<br />
+    <input type="text" name="textfield" id="textfield" />
+    <br />
+    <input type="submit" name="button2" id="button2" value="Добавить и вступить в него" />
+</div>
+</div>
+</td>
+  </tr>
+  <tr>
+    <td valign="top"><div id="messages"><span class="title" crew_id="1">маджеста [Илья]</span> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong class="title" crew_id="8">карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+      <strong>штаб [Андрей]:</strong> короче, за не имением варианта лучше кто-нибудь на Карла Либкнехта 12 сгоняйте<br />
+      <strong>карина[Саня]:</strong> Энгельса 33 тоже<br />
+      <strong>штаб [Андрей]:</strong> Карл Либкнехт и Дзержинский на первой подсказке! там банк на пересечении!<br />
+все быстро на пересечение Карл Либкнехт и Дзержинский <br />
+<strong>маджеста [Илья]:</strong> Вы там спите чтоле?<br />
+</div>
+</td>
+  </tr>
+</table>
+</body>
+</html>

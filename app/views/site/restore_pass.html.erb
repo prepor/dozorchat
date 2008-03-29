@@ -1,0 +1,10 @@
+<div style="font-size: 150%; margin-top: 50px;">
+<h1 align="center">Восстановление пароля | <a href="/">Назад</a></h1>
+<div align="center">
+	<% form_tag ({:controller => "site", :action => "restore_pass_send"}, :method => :post) do -%>
+	<br/>
+	<p>Ваш Email, пожалуйста<br/>
+	<%= text_field_tag 'email' %></p>
+	<p><%= submit_tag 'Вспомнить' %></p>
+	<% end -%>
+</div>

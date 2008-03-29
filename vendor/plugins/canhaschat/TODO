@@ -1,0 +1,10 @@
+ * tests! (rspec)
+ * needless reproductions of well known code (see: Lockable, only known example)
+   should be replaced with their stdlib equivalents.
+ * server should be put through some decent stress tests to determine  what
+   its upper limits are
+ * implement logging in some elegant fashion - possibly using a file store to
+   avoid any dependency on ActiveRecord, or a combination of in-mem/file store
+   w/ the dRuby server.
+ * up the overall code quality throughout
+ * rdocs should be better formatted, and a more decisive style used.

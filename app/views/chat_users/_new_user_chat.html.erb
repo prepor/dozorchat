@@ -1,0 +1,14 @@
+<% form_for @chat_user do |f| -%>
+<%= f.hidden_field :team_id, :value => @team.id %>
+<%= hidden_field_tag :password_for_game, @team.password_for_game %>
+<p>Имя<br/>
+<%= f.text_field :name %></p>
+
+<p>Экипаж<br/>
+<%= f.select :crew_id, @crews, {:include_blank => 'Создам новый'} %><br/>
+<span class="info">Если создаете новый экипаж, то введите его название:</span> <br/><%= text_field_tag :crew_title %>
+</p>
+
+
+<p><%= submit_tag 'Войти в чат' %></p>
+<% end -%>

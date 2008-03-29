@@ -1,0 +1,13 @@
+<div align="left" style="font-size: 150%; margin-top: 50px;">
+<h2><%=@page.title%> | <a href="/">Главная</a></h2>
+
+<p>
+<% if @page.is_textile? then %>
+<%=text_parser(@page.content)%>
+<% else %>
+<%=@page.content%>
+<% end %>
+</p>
+
+</div>
+

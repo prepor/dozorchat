@@ -1,0 +1,29 @@
+<div style="font-size: 150%; margin-top: 50px;">
+<h1 align="center"><%= @team.title %></h1>
+<div align="left">
+
+	<% form_for @team do |f| -%>
+	
+	<p>Название команды<br/>
+	<%= f.text_field :title %></p>
+	
+	<p>Город<br/>
+	<%= f.text_field :city %></p>
+	
+	<p>Ваш логин<br/>
+	<%= f.text_field :login %></p>
+
+	<p>Email<br/>
+	<%= f.text_field :email %></p>
+
+	<p><%= submit_tag 'Сохранить' %></p>
+	<% end -%>
+	
+	
+<p>
+[<%= link_to "Выйти", {:controller => "sessions", :action => "destroy"}, :method => :delete %>] 
+[<%= link_to "Редактировать информацию", {:controller => "teams", :action => "edit"} %>] 
+[<%= link_to "Удалить команду", {:controller => "teams", :action => "destroy"}, :method => :delete, :confirm => "Вы уверены?" %>]</p>
+</div>
+
+</div>

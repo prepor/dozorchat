@@ -1,0 +1,9 @@
+<%
+# puts "HELLO!"
+# puts @crews_list.inspect
+%>
+  <select name="crew_id">
+	<% @crews_list.each do |crew| %>
+<option value="<%= crew.id %>" <% if @chat_user.crew_id ==  crew.id then %>selected <% end %>><%= crew.title %></option>
+	<% end %>
+  </select>

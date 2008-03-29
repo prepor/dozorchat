@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: CHANGELOG</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>CHANGELOG</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>vendor/plugins/rutils-0.2.3/CHANGELOG
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Sun Mar 02 20:18:12 +0800 2008</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Версия 0.2.3 - 27.09.2007
+</p>
+<ul>
+<li>Кошмар - в новой версии rubygems изменилась
+семантика s.files из-за чего мы забыли все
+файлы в корневой директории
+
+<ul>
+<li>включая init.rb (julik)
+
+</li>
+</ul>
+</li>
+</ul>
+<p>
+Версия 0.2.2 - 24.09.2007
+</p>
+<ul>
+<li>Gilenson - обрабатываем акронимы по принципу
+Textile (zajats, julik)
+
+</li>
+<li>Gilenson - отформатирован под 2 пробела (julik)
+
+</li>
+<li>В тестах пользуйтесь assert_equal_cp (julik)
+
+</li>
+<li>Welcome to subversion (julik)
+
+</li>
+</ul>
+<p>
+Версия 0.2.1 - 02.04.2007
+</p>
+<ul>
+<li>Восстановлен в gemspec gilenson.rb (Сергей
+Барабаш)
+
+</li>
+</ul>
+<p>
+Версия 0.2.0 - 02.04.2007
+</p>
+<ul>
+<li>Фикс squeeze в dirify (Сергей Барабаш)
+
+</li>
+<li>Формат даты по умолчанию - %F (Сергей
+Барабаш)
+
+</li>
+</ul>
+<p>
+Версия 0.1.9 - 17.02.2007
+</p>
+<ul>
+<li>Gilenson integration - не съедаем пробелы между
+тегами при прогоне текста через Textile
+
+</li>
+</ul>
+<p>
+Версия 0.1.8 - 05.02.2007
+</p>
+<ul>
+<li>Gilenson - расстановка инициалов не должна
+цеплять аббревиатуры (julik)
+
+</li>
+</ul>
+<p>
+Версия 0.1.7 - 05.02.2007
+</p>
+<ul>
+<li><a href="../../../../classes/Date.html">Date</a> helpers приведены
+в более веселый вид (и в соответствие с
+Rails 1.2.1) (julik)
+
+</li>
+<li>date_helper надо поменять чтобы передавать
+рельсовому хелперу весь массив options в
+хеше (julik)
+
+</li>
+</ul>
+<p>
+Версия 0.1.6 - 18.08.2006
+</p>
+<ul>
+<li>Удалили jcode, он нам не сильно нужен (julik)
+
+</li>
+<li>В простом транслите Шипилов - Schipilov
+вместо SCHipilov (julik)
+
+</li>
+<li>Тесты интеграции валятся явно и громко
+если зависимые модули на машине
+отсутствуют (julik)
+
+</li>
+<li>Масса крошечных твиков чтобы сделать все
+немножко аккуратнее (julik)
+
+</li>
+<li>Родительный падеж (RU_INFLECTED_MONTHNAMES) для
+месяцев после числа (%d %B == 31 декабря) в
+strftime (mash)
+
+</li>
+</ul>
+<p>
+Версия 0.1.5 - 08.05.2006
+</p>
+<ul>
+<li>Транслитераторы вынесены в отдельные
+файлы (julik)
+
+</li>
+<li>Починен баг с передачей часа в нужном
+падеже в distance_of_time (anonyomous)
+
+</li>
+<li>Добавлены корректные методы публикации
+доков, сменены параметры их генерации
+(julik)
+
+</li>
+<li>cp -r заменен на cp_r чтобы rutilize работал в
+Windows (anonymous)
+
+</li>
+<li>Имена месяцев со строчной буквы (sgt - <a
+href="http://rubyforge.org/users/sgt">rubyforge.org/users/sgt</a>)
+
+</li>
+<li>Поддерживаем оба класса Locale (из ruby-locale и
+gettext - они немного отличаются по
+семантике) (julik)
+
+</li>
+</ul>
+<p>
+Версия 0.1.4 - 02.12.2005
+</p>
+<ul>
+<li>Поправлен импорт Rails-плагина (julik)
+
+</li>
+<li>Поправлен паттерн сбора тестируемых
+файлов (julik)
+
+</li>
+<li>Gilenson - на Oniguruma сбоит skip_code, но это надо
+побарывать нормальным токенизатором,
+пока откладывается (julik)
+
+</li>
+<li>Gilenson - в тестах произведена замена &lt;cOdE&gt;
+на &lt;code&gt; и &lt;TT&gt; на &lt;tt&gt; (mash)
+
+</li>
+<li>Gilenson - в двух регулярных выражениях (в
+&quot;def process_quotes&quot;) изменен #{@mark_tag} на
+\#{@mark_tag} чтобы предотвратить segfault ruby 1.8.2
+(2004-12-25) на [i386-mswin32] (mash)
+
+</li>
+<li>Gilenson - починен дикий баг с маркером в
+одинарных кавычках - теперь таки
+последовательность байтов вместо
+символов (julik)
+
+</li>
+<li>DateTime - RU_INFLECTED_MONTHNAMES =&gt; Авгуса &#8212;&gt;
+Августа (mash)
+
+</li>
+</ul>
+<p>
+Версия 0.1.3 - 14.11.2005
+</p>
+<ul>
+<li>Gilenson - замена троеточий на ellipsis (julik)
+
+</li>
+<li>Gilenson - теперь пробел, идущий перед одной
+или двумя буквами на конце слова
+меняется на glyph[:nbsp]. (mash)
+
+</li>
+<li>Gilenson - починен баг из-за которого не
+типографилась закрывающая кавычка после
+вопросительного и восклицательного
+знака (julik)
+
+</li>
+<li>По умолчанию используется новый Gilenson
+(Gilenson::Formatter). Старый доступен как
+Gilenson::Obsolete и через String#o_gilensize и грузится
+только в случае необходимости. Если у вас
+были тесты провеяющие gilensize скорее всего
+они &quot;полетели&quot; (julik)
+
+</li>
+<li>Gilenson - дополнительная фича, не связанная
+с типографикой: замена амперсанда в
+следующих атрибутах тагов: href, src, data.
+Пример: &lt;a href=&quot;?x=1&amp;y=2&amp;38;z=3&quot;&gt; =&gt;
+&lt;a href=&quot;?x=1&amp;38;y=2&amp;38;z=3&quot;&gt; (mash)
+
+</li>
+<li>Gilenson - изменён метод process_ampersands (стало
+process_escape_html), меняющий &amp;,&lt;,&gt; на глифы
+:amp,:lt,:gt при запрете HTML (@settings[:html]=&gt;false).
+По-умолчанию Гиленсон разрешает
+использование HTML. В иерархии метод
+выставлен первым для корректной
+обработки случаев вида %{Используйте
+&amp;38; вместо &amp;amp;}.gilensize(:html=&gt;false) (mash)
+
+</li>
+<li>Gilenson - добавлены :skip_attr=&gt;false и :skip_code=&gt;true
+для управления обработкой типографики
+атрибутов тегов title, alt и содержимого
+&lt;code/&gt;, &lt;tt/&gt;, &lt;![<a href="http://...">CDATA</a>]&gt;
+(mash)
+
+</li>
+<li>Gilenson - добавлен :raw_output=&gt;true для вывода
+обычных UTF-8 chars вместо entities (julik)
+
+</li>
+<li>Смена структуры модулей Gilenson (julik)
+
+<pre>
+  RuTils::Gilenson::Obsolete - старый класс форматтера
+  RuTils::Gilenson::Formatter - новый класс форматтера
+  При вызове RuTils::Gilenson.new возвращается новый Formatter
+</pre>
+</li>
+<li>Gilenson - документация (julik)
+
+</li>
+<li>Gilenson - основные группы настроек
+&quot;по-умолчанию&quot; выносятся в
+константы (julik)
+
+</li>
+<li>Gilenson - фильтры выносятся в методы типа
+process_фильтр и их можно применять по
+отдельности через Formatter#apply (julik)
+
+</li>
+<li>Gilenson - добавлены &amp;para; и &amp;numero;
+(последний - не стандарт, но нужен для
+преобразований символа &quot;номер&quot;) (mash)
+
+</li>
+<li>Gilenson - добавлен хэш @glyph_copy_paste для подмены
+юникодных типографских символов на entities
+(опционально, через @settings[:copypaste]=&gt;true) (mash)
+
+</li>
+<li>Gilenson - добавлена &quot;склейка&quot; инициалов
+полукруглой шпацией (thin space)
+
+</li>
+<li>Gilenson - добавлен Formatter#process чтобы
+обрабатывать строки поточно, и сделан
+удобный доступ к настройкам через
+&quot;хвост&quot; метода (julik)
+
+</li>
+<li>Во всех внутренних строковых
+подстановках Gilenson используются
+указатели на глифы с двоеточием в начале
+(julik)
+
+</li>
+<li>Gilenson - введен DOUBLE PRIME (&amp;8243;) для знаков
+дюйма (julik)
+
+<pre>
+  http://en.wikipedia.org/wiki/Prime_%28mark%29
+  Согласно изощренным правилам скошенный prime правильней чем &quot;
+</pre>
+</li>
+<li>Новый Гиленсон lib/gilenson/gilenson.rb (mash)
+
+<pre>
+  RuTils::GilensonNew::Typografica.new('какой-то текст')
+  %q{&quot;какой-то текст&quot;}.n_gilensize
+</pre>
+</li>
+<li>Код приведён к &quot;2 spaces - no tabs&quot;, частично
+полетели дифы (mash)
+
+</li>
+<li>Изменены константы дат, используемые в
+lib/integration/rails_date_helper_override.rb:
+
+<pre>
+  Было: RuTils::DateTime::ABBR_MONTHNAMES, RuTils::DateTime::INFLECTED_MONTHNAMES
+  Стало: Date::RU_ABBR_MONTHNAMES, Date::RU_INFLECTED_MONTHNAMES (mash)
+</pre>
+</li>
+<li>Добавлена функциия Numeric#rublej (julik)
+
+</li>
+<li>Добавлена русская версия Time#ru_strftime и
+Date#ru_strftime (mash)
+
+</li>
+</ul>
+<p>
+Версия 0.1.2 - 01.11.2005
+</p>
+<ul>
+<li>Добавлен BiDi-транслит c тестами (mash)
+
+</li>
+</ul>
+<p>
+Версия 0.04 - 20.10.2005
+</p>
+<ul>
+<li>Чистка документации
+
+</li>
+</ul>
+<p>
+Версия 0.03 - 18.10.2005
+</p>
+<ul>
+<li>Легкий рефакторинг и чистка
+документации, добавлена реализация
+BiDi-транслита
+
+</li>
+</ul>
+<p>
+Версия 0.02 - 12.07.2005
+</p>
+<ul>
+<li>Заменен маркер подстановки тегов в Gilenson.
+Ранее без oniguruma из-за его применения
+&quot;проглатывалась&quot; буква &quot;р&quot;
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

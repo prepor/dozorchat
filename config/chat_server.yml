@@ -1,0 +1,50 @@
+# 
+# can_has_chat config
+#
+#
+development:
+  # Process ID file - used for controlling the daemonized chat server process
+  pid_file: "tmp/development.chat_server.pid"
+  # Socket to connect to chat_server on
+  socket: "drbunix://tmp/development.chat_server.sock"
+  # Total number of connections to the jabber server to maintain
+  # New connections will "bump" the oldest out of the list
+  max_connections: 10
+  # Number of seconds to wait before "reaping" a chat connection
+  chat_timeout: 60
+  # The IP address/domain name of your Jabber server
+  jabber_server: "localhost"
+  # The "realm" or "domain" that your Jabber users belong in
+  # For example:  imauser@my_jabber_realm is the Jabber nick, then
+  # my_jabber_realm is jabber_realm.
+  jabber_realm: "my_jabber_realm"
+  # whether or not to try connecting to the Jabber server anonymously
+  use_anonymous_jabber: true
+  # where to log chat_server output
+  log_file: "log/development.chat_server.log"
+  # log level of output
+  log_level: "info"
+  # if you're using the custom mongrel http handler, then how long
+  # the "push" connections will remain alive.  if a connection dies
+  # by reaching this limit, the client should initiate a new connection
+  mongrel_keepalive: 30
+  # the transports that your jabber server will provide to the users
+  # check your server documentation for what form these will take; 
+  # messages sent to the jabber server will be sent to
+  # destination_user@transport_address_specified_below
+  # for instance, if the aim transport was "aim.my_jabber_realm",
+  # the message destination would be: some_aim_nick@aim.my_jabber_realm
+  transports:
+    aim: "aim.my_jabber_realm"
+    yahoo: "yahoo.my_jabber_realm"
+    icq: "icq.my_jabber_realm"
+    google: "gtalk.my_jabber_realm"
+
+
+#test:
+#
+#
+#production:
+#
+#
+

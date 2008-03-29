@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: RuTils::DateTime</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">RuTils::DateTime</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/vendor/plugins/rutils-0_2_3/lib/datetime/datetime_rb.html">
+                vendor/plugins/rutils-0.2.3/lib/datetime/datetime.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000034">distance_of_time_in_words</a>&nbsp;&nbsp;
+      <a href="#M000035">ru_strftime</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
+
+        <div class="method-heading">
+          <a href="#M000034" class="method-signature">
+          <span class="method-name">distance_of_time_in_words</span><span class="method-args">(from_time, to_time = 0, include_seconds = false, absolute = false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/datetime/datetime.rb, line 4</span>
+ 4:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">distance_of_time_in_words</span>(<span class="ruby-identifier">from_time</span>, <span class="ruby-identifier">to_time</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">include_seconds</span> = <span class="ruby-keyword kw">false</span>, <span class="ruby-identifier">absolute</span> = <span class="ruby-keyword kw">false</span>) <span class="ruby-comment cmt">#nodoc</span>
+ 5:       <span class="ruby-identifier">from_time</span> = <span class="ruby-identifier">from_time</span>.<span class="ruby-identifier">to_time</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">from_time</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:to_time</span>)
+ 6:       <span class="ruby-identifier">to_time</span> = <span class="ruby-identifier">to_time</span>.<span class="ruby-identifier">to_time</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">to_time</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:to_time</span>)
+ 7:       <span class="ruby-identifier">distance_in_minutes</span> = (((<span class="ruby-identifier">to_time</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">from_time</span>).<span class="ruby-identifier">abs</span>)<span class="ruby-operator">/</span><span class="ruby-value">60</span>).<span class="ruby-identifier">round</span>
+ 8:       <span class="ruby-identifier">distance_in_seconds</span> = ((<span class="ruby-identifier">to_time</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">from_time</span>).<span class="ruby-identifier">abs</span>).<span class="ruby-identifier">round</span>
+ 9:       
+10:       <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">distance_in_minutes</span>
+11:         <span class="ruby-keyword kw">when</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">1</span>
+12:           <span class="ruby-keyword kw">return</span> (<span class="ruby-identifier">distance_in_minutes</span><span class="ruby-operator">==</span><span class="ruby-value">0</span>) <span class="ruby-operator">?</span> <span class="ruby-value str">'меньше минуты'</span> <span class="ruby-operator">:</span> <span class="ruby-value str">'1 минуту'</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">include_seconds</span>
+13:         
+14:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">distance_in_seconds</span>
+15:            <span class="ruby-keyword kw">when</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">5</span>   <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'менее 5 секунд'</span>
+16:            <span class="ruby-keyword kw">when</span> <span class="ruby-value">6</span><span class="ruby-operator">..</span><span class="ruby-value">10</span>   <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'менее 10 секунд'</span>
+17:            <span class="ruby-keyword kw">when</span> <span class="ruby-value">11</span><span class="ruby-operator">..</span><span class="ruby-value">20</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'менее 20 секунд'</span>
+18:            <span class="ruby-keyword kw">when</span> <span class="ruby-value">21</span><span class="ruby-operator">..</span><span class="ruby-value">40</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'пол-минуты'</span>
+19:            <span class="ruby-keyword kw">when</span> <span class="ruby-value">41</span><span class="ruby-operator">..</span><span class="ruby-value">59</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'меньше минуты'</span>
+20:            <span class="ruby-keyword kw">else</span>          <span class="ruby-value str">'1 минуту'</span>
+21:          <span class="ruby-keyword kw">end</span>
+22:         
+23:          <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span><span class="ruby-operator">..</span><span class="ruby-value">45</span>       <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">distance_in_minutes</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> 
+24:                               <span class="ruby-value str">&quot; &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">distance_in_minutes</span>.<span class="ruby-identifier">items</span>(<span class="ruby-value str">&quot;минута&quot;</span>, <span class="ruby-value str">&quot;минуты&quot;</span>, <span class="ruby-value str">&quot;минут&quot;</span>) 
+25:          <span class="ruby-keyword kw">when</span> <span class="ruby-value">46</span><span class="ruby-operator">..</span><span class="ruby-value">90</span>     <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'около часа'</span>
+26:          <span class="ruby-comment cmt"># исключение, сдвигаем на один влево чтобы соответствовать падежу</span>
+27:          <span class="ruby-keyword kw">when</span> <span class="ruby-value">90</span><span class="ruby-operator">..</span><span class="ruby-value">1440</span>   <span class="ruby-keyword kw">then</span> <span class="ruby-value str">&quot;около &quot;</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">distance_in_minutes</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> <span class="ruby-value">60.0</span>).<span class="ruby-identifier">round</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> 
+28:                               <span class="ruby-value str">&quot; &quot;</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">distance_in_minutes</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> <span class="ruby-value">60.0</span>).<span class="ruby-identifier">round</span>.<span class="ruby-identifier">items</span>(<span class="ruby-value str">&quot;часа&quot;</span>, <span class="ruby-value str">'часов'</span>, <span class="ruby-value str">'часов'</span>)
+29:          <span class="ruby-keyword kw">when</span> <span class="ruby-value">1441</span><span class="ruby-operator">..</span><span class="ruby-value">2880</span> <span class="ruby-keyword kw">then</span> <span class="ruby-value str">'1 день'</span>
+30:          <span class="ruby-keyword kw">else</span>                  (<span class="ruby-identifier">distance_in_minutes</span> <span class="ruby-operator">/</span> <span class="ruby-value">1440</span>).<span class="ruby-identifier">round</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> 
+31:                               <span class="ruby-value str">&quot; &quot;</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">distance_in_minutes</span> <span class="ruby-operator">/</span> <span class="ruby-value">1440</span>).<span class="ruby-identifier">round</span>.<span class="ruby-identifier">items</span>(<span class="ruby-value str">&quot;день&quot;</span>, <span class="ruby-value str">&quot;дня&quot;</span>, <span class="ruby-value str">&quot;дней&quot;</span>)
+32:        <span class="ruby-keyword kw">end</span>
+33:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000035" class="method-detail">
+        <a name="M000035"></a>
+
+        <div class="method-heading">
+          <a href="#M000035" class="method-signature">
+          <span class="method-name">ru_strftime</span><span class="method-args">(date='%d.%m.%Y', time='')</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000035-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000035-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/datetime/datetime.rb, line 37</span>
+37:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">ru_strftime</span>(<span class="ruby-identifier">date</span>=<span class="ruby-value str">'%d.%m.%Y'</span>, <span class="ruby-identifier">time</span>=<span class="ruby-value str">''</span>)
+38:       <span class="ruby-identifier">date</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/%%/</span>, <span class="ruby-ivar">@@ignored</span>)
+39:       <span class="ruby-identifier">date</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/%a/</span>, <span class="ruby-constant">Date</span><span class="ruby-operator">::</span><span class="ruby-constant">RU_ABBR_DAYNAMES</span>[<span class="ruby-identifier">time</span>.<span class="ruby-identifier">wday</span>])
+40:       <span class="ruby-identifier">date</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/%A/</span>, <span class="ruby-constant">Date</span><span class="ruby-operator">::</span><span class="ruby-constant">RU_DAYNAMES</span>[<span class="ruby-identifier">time</span>.<span class="ruby-identifier">wday</span>])
+41:       <span class="ruby-identifier">date</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/%b/</span>, <span class="ruby-constant">Date</span><span class="ruby-operator">::</span><span class="ruby-constant">RU_ABBR_MONTHNAMES</span>[<span class="ruby-identifier">time</span>.<span class="ruby-identifier">mon</span>])
+42:       <span class="ruby-identifier">date</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/%d(\s)*%B/</span>, <span class="ruby-identifier">time</span>.<span class="ruby-identifier">day</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'\1'</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Date</span><span class="ruby-operator">::</span><span class="ruby-constant">RU_INFLECTED_MONTHNAMES</span>[<span class="ruby-identifier">time</span>.<span class="ruby-identifier">mon</span>])
+43:       <span class="ruby-identifier">date</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/%B/</span>, <span class="ruby-constant">Date</span><span class="ruby-operator">::</span><span class="ruby-constant">RU_MONTHNAMES</span>[<span class="ruby-identifier">time</span>.<span class="ruby-identifier">mon</span>])
+44:       <span class="ruby-identifier">date</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-ivar">@@ignored</span>, <span class="ruby-value str">'%%'</span>)
+45:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

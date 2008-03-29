@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: RuTils::Transliteration::BiDi</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">RuTils::Transliteration::BiDi</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/vendor/plugins/rutils-0_2_3/lib/transliteration/bidi_rb.html">
+                vendor/plugins/rutils-0.2.3/lib/transliteration/bidi.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Реализует транслитерацию &quot;в обе
+стороны&quot;, дающую возможность
+автоматически использовать URL как ключ
+записи
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TABLE_TO</td>
+          <td>=</td>
+          <td class="context-item-value">{     &quot;А&quot;=&gt;&quot;A&quot;,&quot;Б&quot;=&gt;&quot;B&quot;,&quot;В&quot;=&gt;&quot;V&quot;,&quot;Г&quot;=&gt;&quot;G&quot;,&quot;Д&quot;=&gt;&quot;D&quot;,     &quot;Е&quot;=&gt;&quot;E&quot;,&quot;Ё&quot;=&gt;&quot;JO&quot;,&quot;Ж&quot;=&gt;&quot;ZH&quot;,&quot;З&quot;=&gt;&quot;Z&quot;,&quot;И&quot;=&gt;&quot;I&quot;,     &quot;Й&quot;=&gt;&quot;JJ&quot;,&quot;К&quot;=&gt;&quot;K&quot;,&quot;Л&quot;=&gt;&quot;L&quot;,&quot;М&quot;=&gt;&quot;M&quot;,&quot;Н&quot;=&gt;&quot;N&quot;,     &quot;О&quot;=&gt;&quot;O&quot;,&quot;П&quot;=&gt;&quot;P&quot;,&quot;Р&quot;=&gt;&quot;R&quot;,&quot;С&quot;=&gt;&quot;S&quot;,&quot;Т&quot;=&gt;&quot;T&quot;,     &quot;У&quot;=&gt;&quot;U&quot;,&quot;Ф&quot;=&gt;&quot;F&quot;,&quot;Х&quot;=&gt;&quot;KH&quot;,&quot;Ц&quot;=&gt;&quot;C&quot;,&quot;Ч&quot;=&gt;&quot;CH&quot;,     &quot;Ш&quot;=&gt;&quot;SH&quot;,&quot;Щ&quot;=&gt;&quot;SHH&quot;,&quot;Ъ&quot;=&gt;&quot;_~&quot;,&quot;Ы&quot;=&gt;&quot;Y&quot;,&quot;Ь&quot;=&gt;&quot;_'&quot;,     &quot;Э&quot;=&gt;&quot;EH&quot;,&quot;Ю&quot;=&gt;&quot;JU&quot;,&quot;Я&quot;=&gt;&quot;JA&quot;,&quot;а&quot;=&gt;&quot;a&quot;,&quot;б&quot;=&gt;&quot;b&quot;,     &quot;в&quot;=&gt;&quot;v&quot;,&quot;г&quot;=&gt;&quot;g&quot;,&quot;д&quot;=&gt;&quot;d&quot;,&quot;е&quot;=&gt;&quot;e&quot;,&quot;ё&quot;=&gt;&quot;jo&quot;,     &quot;ж&quot;=&gt;&quot;zh&quot;,&quot;з&quot;=&gt;&quot;z&quot;,&quot;и&quot;=&gt;&quot;i&quot;,&quot;й&quot;=&gt;&quot;jj&quot;,&quot;к&quot;=&gt;&quot;k&quot;,     &quot;л&quot;=&gt;&quot;l&quot;,&quot;м&quot;=&gt;&quot;m&quot;,&quot;н&quot;=&gt;&quot;n&quot;,&quot;о&quot;=&gt;&quot;o&quot;,&quot;п&quot;=&gt;&quot;p&quot;,     &quot;р&quot;=&gt;&quot;r&quot;,&quot;с&quot;=&gt;&quot;s&quot;,&quot;т&quot;=&gt;&quot;t&quot;,&quot;у&quot;=&gt;&quot;u&quot;,&quot;ф&quot;=&gt;&quot;f&quot;,     &quot;х&quot;=&gt;&quot;kh&quot;,&quot;ц&quot;=&gt;&quot;c&quot;,&quot;ч&quot;=&gt;&quot;ch&quot;,&quot;ш&quot;=&gt;&quot;sh&quot;,&quot;щ&quot;=&gt;&quot;shh&quot;,     &quot;ъ&quot;=&gt;&quot;~&quot;,&quot;ы&quot;=&gt;&quot;y&quot;,&quot;ь&quot;=&gt;&quot;'&quot;,&quot;э&quot;=&gt;&quot;eh&quot;,&quot;ю&quot;=&gt;&quot;ju&quot;,     &quot;я&quot;=&gt;&quot;ja&quot;,     # &quot; &quot;=&gt;&quot;__&quot;,&quot;_&quot;=&gt;&quot;__&quot;     # так сразу не получится, будут проблемы с &quot;Ь&quot;=&gt;&quot;_'&quot;   }.sort do |one, two|     two[1].split(//).size &lt;=&gt; one[1].split(//).size</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

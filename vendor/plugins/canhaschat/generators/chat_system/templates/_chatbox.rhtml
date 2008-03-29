@@ -1,0 +1,47 @@
+<%%= wait_for_messages(:url=>"/<%= controller_file_name %>/push?chat_id=#{chat_id}") %>
+
+<%% content_tag "div", (messages_html_options || {}).merge({:id=>"message_container"}) do -%>
+    <ul id="chat_messages">
+        <%% for_new_messages do |msg| %>
+            <li><%%= msg.timestamp %>: [<%%= msg.from %>] <%%= msg.message %></li>
+        <%% end %>
+    </ul>
+<%% end -%>
+<ul id="roster">
+    <%% for_roster do |msg| %>
+        <li>
+            <input type="button" 
+                value="Send to <%%= msg.message %>"
+                onClick="sendTo('<%%= msg.message %>', '<%%= msg.network %>')">
+        </li>
+    <%% end %>
+</ul>
+<%% form_remote_tag :url => {
+                        :controller => :<%= controller_file_name %>,
+                        :action => :send_message
+                    }, :html => form_html_options do  %>
+
+    <%%= hidden_field_tag("id", from.id) %>
+    <%%= hidden_field_tag("to", to) %>
+    <%%= hidden_field_tag("transport", "") %>
+    <%%= hidden_field_tag "chat_id", chat_id %>
+    <label for="message">
+        Message
+    </label>
+    <%%= text_field_tag "message", "" %><br/>
+    <%%= submit_tag "Send" %>
+
+<%% end %>
+
+
+<%%= call_for_presence_updates :presenceChange %>
+
+<script type="text/javascript">
+    function sendTo(name, network){
+        $("to").value = name;
+        $("transport").value = network;
+    }
+    function presenceChange(date, from, message, network){
+        alert(from+" is now "+message);
+    }
+</script>

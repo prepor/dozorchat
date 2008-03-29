@@ -1,0 +1,33 @@
+<div style="font-size: 150%; margin-top: 50px;">
+<h1 align="center"><%= @team.title %></h1>
+<div align="left">
+	<h2>
+		Ссылка на чат команды — <%= link_to "dozorchat.ru/" + @team.id.to_s, :controller => "chat", :action => "show", :team_id => @team.id %>
+	</h2>
+<p>
+
+
+
+Текущий пароль к чату — <strong id="password_for_game"><% if @team.password_for_game.nil? then %>{не назначен}
+	<% else %>
+	<%= @team.password_for_game %>
+	<% end %></strong>
+
+
+</p>
+<p>
+	 
+	<% form_remote_tag :url => {:controller => "teams", :action => "new_password_for_game"}, :method => :post do -%>
+	Новый пароль к чату: <%= text_field_tag 'new_pass' %>
+	<%= submit_tag 'Назначить' %> 
+	<br/><span class="notice" id="status"></span>
+	<% end -%>
+</p>
+
+<p>
+[<%= link_to "Выйти", {:controller => "sessions", :action => "destroy"}, :method => :delete %>] 
+[<%= link_to "Редактировать информацию", {:controller => "teams", :action => "edit"} %>] 
+[<%= link_to "Удалить команду", {:controller => "teams", :action => "destroy"}, :method => :delete, :confirm => "Вы уверены?" %>]</p>
+</div>
+
+</div>

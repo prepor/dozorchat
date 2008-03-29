@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: simple.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>simple.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>vendor/plugins/rutils-0.2.3/lib/transliteration/simple.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Sun Mar 02 20:18:12 +0800 2008</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Реализует простейшую транслитерацию
+</p>
+<pre>
+  &quot;вот мы и здесь&quot;.translify =&gt; &quot;vot my i zdes&quot;
+  &quot;vot my i zdes&quot;.detranslify =&gt; &quot;вот мы и здесь&quot;
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000004">dirify</a>&nbsp;&nbsp;
+      <a href="#M000003">translify</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TABLE</td>
+          <td>=</td>
+          <td class="context-item-value">TABLE_UPPER + TABLE_LOWER</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="#M000004" class="method-signature">
+          <span class="method-name">dirify</span><span class="method-args">(string)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Транслитерирует строку, делая ее
+пригодной для применения как имя
+директории или URL
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/transliteration/simple.rb, line 66</span>
+66:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">dirify</span>(<span class="ruby-identifier">string</span>)
+67:     <span class="ruby-identifier">st</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">translify</span>(<span class="ruby-identifier">string</span>)
+68:     <span class="ruby-identifier">st</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/(\s\&amp;\s)|(\s\&amp;amp\;\s)/</span>, <span class="ruby-value str">' and '</span>) <span class="ruby-comment cmt"># convert &amp; to &quot;and&quot;</span>
+69:     <span class="ruby-identifier">st</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/\W/</span>, <span class="ruby-value str">' '</span>)  <span class="ruby-comment cmt">#replace non-chars</span>
+70:     <span class="ruby-identifier">st</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/(_)$/</span>, <span class="ruby-value str">''</span>) <span class="ruby-comment cmt">#trailing underscores</span>
+71:     <span class="ruby-identifier">st</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/^(_)/</span>, <span class="ruby-value str">''</span>) <span class="ruby-comment cmt">#leading unders</span>
+72:     <span class="ruby-identifier">st</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">translify</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/(\s)/</span>,<span class="ruby-value str">'-'</span>).<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">squeeze</span>(<span class="ruby-value str">'-'</span>)
+73:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="#M000003" class="method-signature">
+          <span class="method-name">translify</span><span class="method-args">(str)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Заменяет кириллицу в строке на латиницу.
+Немного специфично потому что
+поддерживает комби-регистр (Щука -&gt; Shuka)
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/rutils-0.2.3/lib/transliteration/simple.rb, line 35</span>
+35:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">translify</span>(<span class="ruby-identifier">str</span>)
+36:     <span class="ruby-identifier">chars</span> = <span class="ruby-identifier">str</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">//</span>)    
+37:     
+38:     <span class="ruby-identifier">lowers</span> = <span class="ruby-constant">TABLE_LOWER</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>[<span class="ruby-value">0</span>] }
+39:     <span class="ruby-identifier">uppers</span> = <span class="ruby-constant">TABLE_UPPER</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>[<span class="ruby-value">0</span>] }
+40:     
+41:     <span class="ruby-identifier">hashtable</span> = {}
+42:     <span class="ruby-constant">TABLE</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span> <span class="ruby-identifier">item</span> <span class="ruby-operator">|</span>
+43:       <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">item</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">item</span>[<span class="ruby-value">1</span>]
+44:       <span class="ruby-identifier">hashtable</span>[<span class="ruby-identifier">item</span>[<span class="ruby-value">0</span>]] = <span class="ruby-identifier">item</span>[<span class="ruby-value">1</span>]
+45:     <span class="ruby-keyword kw">end</span>
+46:     
+47:     <span class="ruby-identifier">result</span> = <span class="ruby-value str">''</span>
+48:     <span class="ruby-identifier">chars</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span> <span class="ruby-identifier">char</span>, <span class="ruby-identifier">index</span> <span class="ruby-operator">|</span>
+49:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">uppers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">char</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">lowers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">chars</span>[<span class="ruby-identifier">index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>])
+50:         <span class="ruby-comment cmt"># Combined case. Here we deal with Latin letters so there is no problem to use</span>
+51:         <span class="ruby-comment cmt"># Ruby's builtin upcase_downcase</span>
+52:         <span class="ruby-identifier">ch</span> = <span class="ruby-identifier">hashtable</span>[<span class="ruby-identifier">char</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">capitalize</span>
+53:         <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">ch</span>
+54:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">uppers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">char</span>)
+55:         <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">hashtable</span>[<span class="ruby-identifier">char</span>]        
+56:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">lowers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">char</span>)
+57:         <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">hashtable</span>[<span class="ruby-identifier">char</span>]
+58:       <span class="ruby-keyword kw">else</span>
+59:         <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">char</span>
+60:       <span class="ruby-keyword kw">end</span>
+61:     <span class="ruby-keyword kw">end</span>
+62:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>
+63:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

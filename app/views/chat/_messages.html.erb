@@ -1,0 +1,3 @@
+<% @messages.each do |mes| %>
+<span class="title" crew_id="<%= mes.id_crew %>" crew_title="<%= mes.crew %>"><%= mes.crew %> [<%= mes.chat_user %>]<% if mes.is_private then %> (приватно для <%= mes.private_for %>)<% end %></span> <%= mes.content %><br />
+<% end %>

@@ -1,0 +1,8 @@
+if @check then
+  page.replace_html 'user_div', :partial => 'new_user_chat'
+  page['pass_div'].hide('slow')
+  page['errors'].hide
+  page['user_div'].show('slow')
+else
+  page.replace_html 'errors', 'Неверный пароль!'
+end

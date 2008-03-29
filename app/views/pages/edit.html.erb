@@ -1,0 +1,21 @@
+<h2>Редактирование страницы "<%= @page.title %>"</h2>
+	<%= error_messages_for(:page) %> 
+
+  <% form_for (@page) do |f| %>
+
+    <p>Заголовок<br />
+      <%= f.text_field :title, :size => "60" %>
+    </p>
+
+    <p>URL<br />
+        <%= f.text_field :url, :size => "60" %>
+    </p>
+    <p>Содержание<br />
+      <%= f.text_area :content, :size => "60x15" %>	<br/>
+		можно использовать <%= link_to "Textile", "/quick.html", :popup => ["QuickRef", "height=600,width=550,channelmode=0,dependent=0, directories=0, fullscreen=0, location=0, menubar=0, resizable=0, scrollbars=1, status=1, toolbar=0"] %>
+    </p>
+    <p>
+	Не использовать Textile <%= f.check_box :is_textile,{"checked"=>if @page.is_textile? then false else true end}, "0", "1" %> <br/>
+      <%= submit_tag "Сохранить" %>
+    </p>
+<% end %>

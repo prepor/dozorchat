@@ -1,0 +1,5 @@
+<% @crews_list.each do |crew| %>
+<span id="crew_title" crew_id="<%= crew.id %>"><%= crew.title %></span> [<span class="count_chat_users" onmouseover="Tip('<%= crew.chat_users.map { |u| u.name}.join(', ') %>')"><%= crew.chat_users.length %></span>]<br />
+<span class="info">где?</span> <%= crew.where %><br />
+<span class="info">куда?</span> <%= crew.where2 %><br />
+<% end %>

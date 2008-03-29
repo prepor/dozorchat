@@ -1,0 +1,62 @@
+<script type="text/javascript">
+	$j(document).ready(function(){
+	  	$j("#registration").click(function(){
+			$j("#enter_div").hide("slow");
+			$j("#registration_div").show("slow");
+		});
+		$j("#enter").click(function(){
+			$j("#enter_div").show("slow");
+			$j("#registration_div").hide("slow");
+		});
+	})
+</script>
+<div class="form" style=" margin-top: 100px;">
+<a href="#" id="enter">Войти</a> | <a href="#" id="registration">Зарегистрировать команду</a>
+	<div id="errors" class="error" style="text-align: left;font-size: 50%">
+		
+	</div>
+	<div id="enter_div" style="display: none">
+		<% form_remote_tag :url => session_path, :method => :post, :update => "errors" do -%>
+		<br/>
+		<p>Логин<br/>
+		<%= text_field_tag 'login' %></p>
+
+		<p>Пароль<br/>
+		<%= password_field_tag 'password' %></p>
+
+
+		<p>Запомнить меня:
+		<%= check_box_tag 'remember_me' %></p>
+
+
+		<p><%= submit_tag 'Войти' %></p>
+		<a href="/site/restore_pass" style="font-size: 50%">Вспомнить пароль</a>
+		<% end -%>
+	</div>
+	<div id="registration_div" style="display: none">
+		<br/>
+		<% form_remote_for :team, :url => teams_path, :method => :post, :update => "errors" do |f| -%>
+		
+		<p>Название команды<br/>
+		<%= f.text_field :title %></p>
+		
+		<p>Город<br/>
+		<%= f.text_field :city %></p>
+		
+		<p>Ваш логин<br/>
+		<%= f.text_field :login %></p>
+
+		<p>Email<br/>
+		<%= f.text_field :email %></p>
+
+		<p>Пароль<br/>
+		<%= f.password_field :password %></p>
+
+		<p>Еще раз пароль<br/>
+		<%= f.password_field :password_confirmation %></p>
+
+		<p><%= submit_tag 'Зарегистрировать' %></p>
+		<% end -%>
+
+	</div>
+</div>
