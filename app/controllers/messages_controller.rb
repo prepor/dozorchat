@@ -50,6 +50,7 @@ class MessagesController < ApplicationController
         page.insert_html :top, "messages", :partial => 'chat/messages'
         page.visual_effect "highlight", "messages"
     end
+    render :nothing => true
   end
 
   def edit
