@@ -178,7 +178,7 @@ function toggle_private(title, id){
 	$j("#form #message_private_list").html(t.join(', '));
 }
 </script>
-<%=juggernaut(:channels => ['team_' + @chat_user.team.id.to_s, 'crew_' + @chat_user.crew.id.to_s], :debug => false, :host => '70.87.222.44') %>
+<%=juggernaut(:channels => ['team_' + @chat_user.team.id.to_s, 'crew_' + @chat_user.crew.id.to_s], :debug => true, :host => '70.87.222.44') %>
 </head>
 
 <body>
