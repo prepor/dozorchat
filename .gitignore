@@ -1,2 +1,5 @@
-log/*.log
-tmp/**/*
+rails/log/*.log
+rails/tmp/**/*
+.DS_Store
+rails/doc/api
+rails/doc/app

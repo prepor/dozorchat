@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical">
+  <mx:Script>
+  <![CDATA[
+   import mx.rpc.events.ResultEvent;
+   import mx.rpc.events.FaultEvent;
+   import mx.rpc.Fault;
+
+   private function onFault(e:FaultEvent):void
+   {
+    resultTxt.text = e.fault.faultString;
+   }
+   private function onResult(e:ResultEvent):void
+   {
+    resultTxt.text = e.message.toString();
+   }
+  ]]>
+ </mx:Script>
+ 
+ <mx:RemoteObject id="messageService" fault="onFault(event)" 
+  source="MessagesController" destination="rubyamf">
+  <mx:method name="index" result="onResult(event)" />
+  <mx:method name="create" result="onResult(event)" />
+ </mx:RemoteObject>
+  <mx:TextArea id="resultTxt"
+   width="80%" height="30%" />
+  <mx:Button id="getMessage"
+   label="Get Messages" click="messageService.index.send();" />
+  <mx:TextArea id="createTxt"
+   width="80%" height="30%" />
+  <mx:Button id="createMessage"
+   label="Create Message" click="messageService.create.send({text: createTxt.text});" />
+ </mx:Application>

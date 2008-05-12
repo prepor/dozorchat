@@ -1,0 +1,23 @@
+development:
+    adapter: mysql
+    encoding: utf8
+    database: dozorchat2
+    username: root
+    password: hzdsed
+    socket: /opt/local/var/run/mysql5/mysqld.sock
+
+test:
+    adapter: mysql
+    encoding: utf8
+    database: dozorchat2_test
+    username: root
+    password: hzdsed
+    socket: /opt/local/var/run/mysql5/mysqld.sock
+
+production:
+    adapter: mysql
+    encoding: utf8
+    database: dozorchat2_prod
+    username: root
+    password: hzdsed
+    socket: /opt/local/var/run/mysql5/mysqld.sock
